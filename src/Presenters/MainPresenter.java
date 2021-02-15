@@ -8,6 +8,7 @@ public class MainPresenter {
     public static void start() {
         int Option = 1;
         SetUpDataBase();
+        SetUpGUI();
         while (Option != 0) {
             DisplayMainMenu();
             Option = Try_GetInt();

@@ -3,6 +3,8 @@ package Presenters;
 import Views.OutputView;
 
 public class OutputPresenter {
+
+    public static void SetUpGUI(){ OutputView.SetUpGUI(); }
     public static void DisplayMainMenu(){ OutputView.DisplayMainMenu(); }
     public static void DisplayStorageMenu(){ OutputView.DisplayStorageMenu(); }
 
