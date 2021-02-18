@@ -3,13 +3,16 @@ package Views.UI;
 import javax.swing.*;
 
 public class AppFrame extends JFrame{
-    JPanel displayedPanel;
+    JPanel currentPanel;
 
-    public void Display(JPanel p){
-        displayedPanel = p;
-        add(displayedPanel);
+    public void SetCurrentPanel(IPanel iPanel){
+        currentPanel = iPanel.GetPanel();
+        currentPanel.setVisible(true);
+        add(currentPanel);
         SetupFrame();
     }
+
+    public JPanel GetCurrentPanel(){ return this.currentPanel; }
 
     private void SetupFrame() {
         SetupFrameLayout();
@@ -22,11 +25,11 @@ public class AppFrame extends JFrame{
         getContentPane().setLayout(mainLayout);
         mainLayout.setHorizontalGroup(
                 mainLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(displayedPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(currentPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainLayout.setVerticalGroup(
                 mainLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(displayedPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(currentPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }
     public void SetupOnTimeConfiguration() {

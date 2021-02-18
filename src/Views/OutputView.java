@@ -2,22 +2,34 @@ package Views;
 
 import Views.UI.*;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class OutputView {
     private static final AppFrame appFrame = new AppFrame();
     public static final IPanel mainPanel = new MainPanel();
-    public static final IPanel loginPanel = new LoginPanel();
-    public static final IPanel LoginPanelTest = new LoginPanelTest();
+    public static IPanel signupPanel = new SignupPanel();
+    public static IPanel loginPanel = new LoginPanel();
 
-    public static void SetUpGUI(){
+    public static void SetUpGUI() {
         appFrame.SetupOnTimeConfiguration();
-        appFrame.Display(new LoginPanel());
+        appFrame.SetCurrentPanel(new LoginPanel());
     }
 
-    static public void DisplayMainMenu(){
+    public static class OnClick_SwapPanels implements ActionListener {
+        private final IPanel gotoPanel;
+        public OnClick_SwapPanels(IPanel gotoPanel){
+            this.gotoPanel = gotoPanel;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            appFrame.GetCurrentPanel().setVisible(false);
+            appFrame.SetCurrentPanel(gotoPanel);
+            System.out.println("test");
+        }
+    }
+
+    static public void DisplayMainMenu() {
         System.out.println();
         System.out.println("#######################[ MainMenu ]#######################");
         System.out.println("|| -----------------> 1 : StoreMedia <----------------- ||");
@@ -25,7 +37,7 @@ public class OutputView {
         System.out.println("##########################################################");
         System.out.print("#-> Option : ");
     }
-    static public void DisplayLoginMenu(){
+    static public void DisplayLoginMenu() {
         System.out.println();
         System.out.println("#####################[ LoginMenu ]###################");
         System.out.println("|| -----------------> 1 : Login  <---------------- ||");
@@ -34,7 +46,7 @@ public class OutputView {
         System.out.println("#####################################################");
         System.out.print("#-> Option : ");
     }
-    static public void DisplayStorageMenu(){
+    static public void DisplayStorageMenu() {
         System.out.println();
         System.out.println("####################[ StorageMenu ]##################");
         System.out.println("|| -----------------> 1 : Store  <---------------- ||");
@@ -44,23 +56,10 @@ public class OutputView {
         System.out.println("#####################################################");
         System.out.print("#-> Option : ");
     }
-    public static void DisplayError(String s) { System.out.print(s); }
-    public static void DisplayMessage(String s) { System.out.print(s); }
-
-    public static class OnClick_SwapPanels implements ActionListener {
-        private final IPanel fromPanel;
-        private final IPanel toPanel;
-        public OnClick_SwapPanels(IPanel fromPanel, IPanel toPanel){
-            this.fromPanel = fromPanel;
-            this.toPanel = toPanel;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            fromPanel.Deactivate();
-            toPanel.Activate();
-            appFrame.Display((JPanel) toPanel);
-            System.out.println("test");
-        }
+    public static void DisplayError(String s) {
+        System.out.print(s);
+    }
+    public static void DisplayMessage(String s) {
+        System.out.print(s);
     }
 }
