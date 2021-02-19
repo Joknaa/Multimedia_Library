@@ -1,33 +1,83 @@
 package Views;
 
-import Views.UI.*;
+import static javax.swing.JOptionPane.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import Views.UI.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.Arrays;
 
 public class OutputView {
     private static final AppFrame appFrame = new AppFrame();
     public static final IPanel mainPanel = new MainPanel();
     public static IPanel signupPanel = new SignupPanel();
-    public static IPanel loginPanel = new LoginPanel();
 
     public static void SetUpGUI() {
         appFrame.SetupOnTimeConfiguration();
         appFrame.SetCurrentPanel(new LoginPanel());
     }
 
-    public static class OnClick_SwapPanels implements ActionListener {
+    public static class OnAction_SwapPanels implements ActionListener {
         private final IPanel gotoPanel;
-        public OnClick_SwapPanels(IPanel gotoPanel){
+        public OnAction_SwapPanels(IPanel gotoPanel){
             this.gotoPanel = gotoPanel;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
             appFrame.GetCurrentPanel().setVisible(false);
             appFrame.SetCurrentPanel(gotoPanel);
-            System.out.println("test");
         }
     }
+    public static class OnAction_SignUp implements  ActionListener {
+        JTextField loginField;
+        JPasswordField passwordField;
+        JPasswordField passwordRepeatField;
+        public OnAction_SignUp(JTextField login, JPasswordField password, JPasswordField passwordRepeat){
+            this.loginField = login;
+            this.passwordField = password;
+            this.passwordRepeatField = passwordRepeat;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (ThereIsEmptyField()) {
+                showMessageDialog(null, "Pls fill all the fields", "Error", ERROR_MESSAGE);
+                return;
+            }
+            if (PasswordDoesntMatch()) {
+                showMessageDialog(null, "Password doesnt match", "Warning", WARNING_MESSAGE);
+                return;
+            }
+
+            ReadSignUpData();
+            showMessageDialog(null, "SignUp Successful", "Confirmation", INFORMATION_MESSAGE);
+        }
+        private boolean ThereIsEmptyField() {
+            boolean loginEmpty = loginField.getText().trim().length() == 0;
+            boolean passwordEmpty = passwordField.getPassword().length == 0;
+            boolean passwordRepeatEmpty = passwordRepeatField.getPassword().length == 0;
+            return loginEmpty || passwordEmpty || passwordRepeatEmpty;
+        }
+        private boolean PasswordDoesntMatch() {
+            char[] password = passwordField.getPassword();
+            char[] passwordRepeat = passwordRepeatField.getPassword();
+
+            if (passwordRepeat.length != password.length) return true;
+            for (int i = 0; i < password.length; i++) {
+                if (password[i] != passwordRepeat[i]) return true;
+            }
+            return false;
+        }
+        private void ReadSignUpData() {
+            char[] login = loginField.getText().toCharArray();
+            char[] password = passwordField.getPassword();
+            char[] passwordRepeat = passwordRepeatField.getPassword();
+            InputView.StoreSignUpData(login, password, passwordRepeat);
+        }
+    }
+    public static class OnMouseClick_CloseApp extends MouseAdapter {
+        public void mouseClicked(MouseEvent e) { System.exit(0); }
+     }
+
 
     static public void DisplayMainMenu() {
         System.out.println();

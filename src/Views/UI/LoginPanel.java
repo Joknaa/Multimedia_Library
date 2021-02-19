@@ -17,8 +17,8 @@ public class LoginPanel extends JPanel implements IPanel {
     private final JButton signInButton = new JButton("Sign In");
     private final JButton signUpButton = new JButton("Sign Up");
     private final JButton closeButton = new JButton("X");
-    private final JPasswordField passwordField = new JPasswordField("password");
-    private final JTextField loginField = new JTextField("username");
+    private final JPasswordField passwordField = new JPasswordField();
+    private final JTextField loginField = new JTextField();
 
     public LoginPanel() {
         SetupLogoPanel();
@@ -74,10 +74,8 @@ public class LoginPanel extends JPanel implements IPanel {
         SetupSeparator(passwordSeparator);
         SetupInputField(loginField);
         SetupInputField(passwordField);
-        SetupSubmitButton(signInButton);
-        SetupSubmitButton(signUpButton);
-        signInButton.addActionListener(new OnClick_SwapPanels(mainPanel));
-        signUpButton.addActionListener(new OnClick_SwapPanels(signupPanel));
+        SetupSubmitButton(signInButton, new OnAction_SwapPanels(mainPanel));
+        SetupSubmitButton(signUpButton, new OnAction_SwapPanels(signupPanel));
         SetupCloseButton();
         SetupInputPanelLayout();
     }
@@ -88,37 +86,36 @@ public class LoginPanel extends JPanel implements IPanel {
         inputField.setBackground(new Color(76, 96, 133));
         inputField.setForeground(new Color(190, 200, 218));
         inputField.setBorder(null);
-        inputField.addFocusListener(new OnFocusAction());
     }
-    private void SetupSubmitButton(JButton submitButton) {
-        submitButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(190, 200, 218)));
-        submitButton.setPreferredSize(new java.awt.Dimension(100, 38));
-        submitButton.setMaximumSize(new java.awt.Dimension(100, 38));
-        submitButton.setMinimumSize(new java.awt.Dimension(100, 38));
-        submitButton.setBackground(new java.awt.Color(76, 96, 133));
-        submitButton.setForeground(new java.awt.Color(190, 200, 218));
+    private void SetupSubmitButton(JButton submitButton, ActionListener actionListener) {
+        submitButton.setBorder(BorderFactory.createLineBorder(new Color(190, 200, 218)));
+        submitButton.setPreferredSize(new Dimension(100, 38));
+        submitButton.setMaximumSize(new Dimension(100, 38));
+        submitButton.setMinimumSize(new Dimension(100, 38));
+        submitButton.setBackground(new Color(76, 96, 133));
+        submitButton.setForeground(new Color(190, 200, 218));
         submitButton.setContentAreaFilled(false);
         submitButton.setFocusPainted(false);
         submitButton.setFocusable(false);
         submitButton.setOpaque(false);
+        submitButton.addActionListener(actionListener);
     }
 
     private void SetupCloseButton() {
-        closeButton.setBackground(new java.awt.Color(76, 96, 133));
-        closeButton.setFont(new java.awt.Font("Source Code Pro", 0, 24)); // NOI18N
-        closeButton.setForeground(new java.awt.Color(52, 66, 91));
+        closeButton.setBackground(new Color(76, 96, 133));
+        closeButton.setFont(new Font("Source Code Pro", 0, 24));
+        closeButton.setForeground(new Color(52, 66, 91));
         closeButton.setText("X");
         closeButton.setToolTipText("");
         closeButton.setBorder(null);
         closeButton.setContentAreaFilled(false);
         closeButton.setFocusPainted(false);
         closeButton.setFocusable(false);
-        closeButton.setMaximumSize(new java.awt.Dimension(100, 38));
-        closeButton.setMinimumSize(new java.awt.Dimension(100, 38));
-        closeButton.setPreferredSize(new java.awt.Dimension(100, 38));
+        closeButton.setMaximumSize(new Dimension(100, 38));
+        closeButton.setMinimumSize(new Dimension(100, 38));
+        closeButton.setPreferredSize(new Dimension(100, 38));
         closeButton.setFont(new Font("Segoe UI", Font.PLAIN, 24));
-        closeButton.addMouseListener(new OnMouseClickAction());
-
+        closeButton.addMouseListener(new OnMouseClick_CloseApp());
     }
     private void SetupInputPanelLayout() {
         var inputPanelLayout = new GroupLayout(inputPanel);
@@ -175,6 +172,9 @@ public class LoginPanel extends JPanel implements IPanel {
     }
 
     private void SetupMainPanel() {
+        SetupMainPanelLayout();
+    }
+    private void SetupMainPanelLayout() {
         var mainPanelLayout = new GroupLayout(this);
 
         this.setLayout(mainPanelLayout);
@@ -191,31 +191,4 @@ public class LoginPanel extends JPanel implements IPanel {
                         .addComponent(inputPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }
-
-    class OnFocusAction extends FocusAdapter {
-        @Override
-        public void focusGained(FocusEvent e) { EmptyPlaceHolder((JTextField) e.getComponent()); }
-    }
-    class OnMouseClickAction extends MouseAdapter {
-        @Override
-        public void mouseClicked(MouseEvent e) { CloseApp(); }
-    }
-    static class OnClickAction implements ActionListener {
-        JPanel fromPanel;
-        JPanel toPanel;
-
-        OnClickAction(){}
-        OnClickAction(JPanel fromPanel, JPanel toPanel){
-            this.fromPanel = fromPanel;
-            this.toPanel = toPanel;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
-    private void CloseApp() { System.exit(0); }
-    private void EmptyPlaceHolder(JTextField field) { field.setText(""); }
 }

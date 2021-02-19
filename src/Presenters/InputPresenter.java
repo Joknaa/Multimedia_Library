@@ -27,4 +27,6 @@ public class InputPresenter {
         return input;
     }
 
+    public static void SignUpUser(){}
+
 }

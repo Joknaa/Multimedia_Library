@@ -8,4 +8,5 @@ public class UserPresenter {
 
     public static void AddMedia(UserModel user){ userList.put(user.GetId(), user);}
     public static void DeleteMedia(UserModel user){ userList.remove(user.GetId(), user);}
+    public static void AddUser(){}
 }

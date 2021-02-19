@@ -1,11 +1,9 @@
 package Views.UI;
 
-import javax.swing.*;
 import static javax.swing.GroupLayout.*;
-import java.awt.*;
-import java.awt.event.*;
-
 import static Views.OutputView.*;
+import javax.swing.*;
+import java.awt.*;
 
 public class SignupPanel extends JPanel implements IPanel {
     private final JPanel logoPanel = new JPanel();
@@ -20,9 +18,9 @@ public class SignupPanel extends JPanel implements IPanel {
     private final JLabel logoTextPanel = new JLabel("Multimedia Library");
     private final JButton signUpButton = new JButton("Sign Up");
     private final JButton closeButton = new JButton("X");
-    private final JPasswordField passwordField = new JPasswordField("password");
-    private final JPasswordField passwordRepeatField = new JPasswordField("password");
-    private final JTextField loginField = new JTextField("username");
+    private final JPasswordField passwordField = new JPasswordField();
+    private final JPasswordField passwordRepeatField = new JPasswordField();
+    private final JTextField loginField = new JTextField();
 
     public SignupPanel() {
         SetupLogoPanel();
@@ -91,7 +89,6 @@ public class SignupPanel extends JPanel implements IPanel {
         inputField.setBackground(new Color(76, 96, 133));
         inputField.setForeground(new Color(190, 200, 218));
         inputField.setBorder(null);
-        inputField.addFocusListener(new OnFocusAction());
     }
     private void SetupSignUpButton() {
         signUpButton.setBorder(BorderFactory.createLineBorder(new Color(190, 200, 218)));
@@ -104,12 +101,12 @@ public class SignupPanel extends JPanel implements IPanel {
         signUpButton.setFocusPainted(false);
         signUpButton.setFocusable(false);
         signUpButton.setOpaque(false);
-        signUpButton.addActionListener(new OnClick_SwapPanels(mainPanel));
+        signUpButton.addActionListener(new OnAction_SignUp(loginField, passwordField, passwordRepeatField));
     }
 
     private void SetupCloseButton() {
         closeButton.setBackground(new java.awt.Color(76, 96, 133));
-        closeButton.setFont(new java.awt.Font("Source Code Pro", Font.PLAIN, 24)); // NOI18N
+        closeButton.setFont(new java.awt.Font("Source Code Pro", Font.PLAIN, 24));
         closeButton.setForeground(new java.awt.Color(52, 66, 91));
         closeButton.setText("X");
         closeButton.setToolTipText("");
@@ -121,7 +118,7 @@ public class SignupPanel extends JPanel implements IPanel {
         closeButton.setMinimumSize(new java.awt.Dimension(100, 38));
         closeButton.setPreferredSize(new java.awt.Dimension(100, 38));
         closeButton.setFont(new Font("Segoe UI", Font.PLAIN, 24));
-        closeButton.addMouseListener(new OnMouseClickAction());
+        closeButton.addMouseListener(new OnMouseClick_CloseApp());
     }
     private void SetupInputPanelLayout() {
         var inputPanelLayout = new GroupLayout(inputPanel);
@@ -173,7 +170,7 @@ public class SignupPanel extends JPanel implements IPanel {
                                         .addComponent(passwordLabel))
                                 .addGap(0, 0, 0)
                                 .addComponent(passwordSeparator, PREFERRED_SIZE, 13, PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
+                                .addGap(18, 18, 18)
                                 .addGroup(inputPanelLayout.createParallelGroup(Alignment.TRAILING)
                                         .addComponent(passwordRepeatField, PREFERRED_SIZE, 39, PREFERRED_SIZE)
                                         .addComponent(passwordRepeatLabel))
@@ -186,6 +183,9 @@ public class SignupPanel extends JPanel implements IPanel {
     }
 
     private void SetupMainPanel() {
+        SetupMainPanelLayout();
+    }
+    private void SetupMainPanelLayout() {
         var mainPanelLayout = new GroupLayout(this);
 
         this.setLayout(mainPanelLayout);
@@ -202,31 +202,4 @@ public class SignupPanel extends JPanel implements IPanel {
                         .addComponent(inputPanel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }
-
-    class OnFocusAction extends FocusAdapter {
-        @Override
-        public void focusGained(FocusEvent e) { EmptyPlaceHolder((JTextField) e.getComponent()); }
-    }
-    class OnMouseClickAction extends MouseAdapter {
-        @Override
-        public void mouseClicked(MouseEvent e) { CloseApp(); }
-    }
-    static class OnClickAction implements ActionListener {
-        JPanel fromPanel;
-        JPanel toPanel;
-
-        OnClickAction(){}
-        OnClickAction(JPanel fromPanel, JPanel toPanel){
-            this.fromPanel = fromPanel;
-            this.toPanel = toPanel;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
-    private void CloseApp() { System.exit(0); }
-    private void EmptyPlaceHolder(JTextField field) { field.setText(""); }
 }
