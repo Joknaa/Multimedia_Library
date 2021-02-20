@@ -1,6 +1,6 @@
-package Presenters;
+package MVPPresenters;
 
-import Views.OutputView;
+import MVPViews.OutputView;
 
 public class OutputPresenter {
 

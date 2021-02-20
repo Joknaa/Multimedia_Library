@@ -1,4 +1,4 @@
-package Views.UI;
+package MVPViews.UI;
 
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.event.*;

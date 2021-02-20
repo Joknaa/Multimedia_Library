@@ -1,10 +1,11 @@
-package Presenters;
+package MVPPresenters;
 
+import static MVPPresenters.OutputPresenter.*;
+import static MVPViews.InputView.*;
+import PubSubPublisher.Subscriber;
 import java.util.InputMismatchException;
-import static Presenters.OutputPresenter.*;
-import static Views.InputView.*;
 
-public class InputPresenter {
+public class InputPresenter extends Subscriber {
 
     public static int Try_GetInt(){
         int input = -1;
@@ -27,6 +28,12 @@ public class InputPresenter {
         return input;
     }
 
-    public static void SignUpUser(){}
+    public static void SignUpUser(char[] login, char[] password){
+        UserPresenter.AddUser(login, password);
+    }
 
+    @Override
+    public void DoSomething() {
+        System.out.println("Subscriber Informed !!");
+    }
 }

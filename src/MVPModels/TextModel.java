@@ -1,11 +1,11 @@
-package Models;
+package MVPModels;
 
-public class VideoModel implements MediaModel{
+public class TextModel implements MediaModel{
     private int id;
     private String url;
 
-    VideoModel(){}
-    VideoModel(int id, String url){
+    TextModel(){}
+    TextModel(int id, String url){
         SetId(id);
         SetURL(url);
     }

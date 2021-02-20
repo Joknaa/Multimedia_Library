@@ -1,8 +1,8 @@
-package Presenters;
+package MVPPresenters;
 
-import static Presenters.DataBasePresenter.*;
-import static Presenters.InputPresenter.*;
-import static Presenters.OutputPresenter.*;
+import static MVPPresenters.DataBasePresenter.*;
+import static MVPPresenters.InputPresenter.*;
+import static MVPPresenters.OutputPresenter.*;
 
 public class MainPresenter {
     public static void start() {

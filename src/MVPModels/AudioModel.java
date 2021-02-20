@@ -1,4 +1,4 @@
-package Models;
+package MVPModels;
 
 public class AudioModel implements MediaModel{
     private int id;

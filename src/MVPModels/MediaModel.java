@@ -1,4 +1,4 @@
-package Models;
+package MVPModels;
 
 public interface MediaModel {
     void SetId(int id);

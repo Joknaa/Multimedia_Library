@@ -1,7 +1,7 @@
-package Presenters;
+package MVPPresenters;
 
-import static Presenters.InputPresenter.*;
-import static Presenters.OutputPresenter.*;
+import static MVPPresenters.InputPresenter.*;
+import static MVPPresenters.OutputPresenter.*;
 
 public class StoragePresenter {
     private static int Option = 1;

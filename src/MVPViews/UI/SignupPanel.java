@@ -1,7 +1,7 @@
-package Views.UI;
+package MVPViews.UI;
 
 import static javax.swing.GroupLayout.*;
-import static Views.OutputView.*;
+import static MVPViews.OutputView.*;
 import javax.swing.*;
 import java.awt.*;
 

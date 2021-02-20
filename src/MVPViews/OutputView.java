@@ -1,11 +1,9 @@
-package Views;
+package MVPViews;
 
 import static javax.swing.JOptionPane.*;
-
-import Views.UI.*;
+import MVPViews.UI.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Arrays;
 
 public class OutputView {
     private static final AppFrame appFrame = new AppFrame();

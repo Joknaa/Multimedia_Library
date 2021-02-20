@@ -1,4 +1,8 @@
-package Views;
+package MVPViews;
+
+import MVPPresenters.InputPresenter;
+import PubSubPublisher.IPublisher;
+import PubSubPublisher.Service;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -16,5 +20,7 @@ public class InputView {
                 Arrays.toString(login),
                 Arrays.toString(password),
                 Arrays.toString(passwordRepeat));
+        InputPresenter.SignUpUser(login, password);
     }
+
 }

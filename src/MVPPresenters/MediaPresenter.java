@@ -1,6 +1,6 @@
-package Presenters;
+package MVPPresenters;
 
-import Models.MediaModel;
+import MVPModels.MediaModel;
 import java.util.HashMap;
 
 public class MediaPresenter {
