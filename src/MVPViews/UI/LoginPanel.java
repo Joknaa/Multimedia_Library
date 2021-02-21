@@ -74,7 +74,7 @@ public class LoginPanel extends JPanel implements IPanel {
         SetupSeparator(passwordSeparator);
         SetupInputField(loginField);
         SetupInputField(passwordField);
-        SetupSubmitButton(signInButton, new OnAction_SwapPanels(mainPanel));
+        SetupSubmitButton(signInButton, new OnAction_SignIn(loginField, passwordField));
         SetupSubmitButton(signUpButton, new OnAction_SwapPanels(signupPanel));
         SetupCloseButton();
         SetupInputPanelLayout();

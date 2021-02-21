@@ -1,6 +1,5 @@
 package MVPPresenters;
 
-import static MVPPresenters.OutputPresenter.*;
 import static MVPViews.InputView.*;
 import PubSubPublisher.Subscriber;
 import java.util.InputMismatchException;
@@ -12,7 +11,7 @@ public class InputPresenter extends Subscriber {
         try {
             input = GetInt();
         } catch (InputMismatchException WrongInput){
-            DisplayError("Wrong Input type ! Please Enter: int");
+            OutputPresenter.DisplayErrorOld("Wrong Input type ! Please Enter: int");
             ClearInputBuffer();
         }
         return input;
@@ -22,14 +21,17 @@ public class InputPresenter extends Subscriber {
         try {
             input = GetString();
         } catch (InputMismatchException WrongInput){
-            DisplayError("Wrong Input type ! Please Enter: String");
+            OutputPresenter.DisplayErrorOld("Wrong Input type ! Please Enter: String");
             ClearInputBuffer();
         }
         return input;
     }
 
     public static void SignUpUser(String login, String password){
-        DataBasePresenter.Try_AddUser(login, password);
+        DataBasePresenter.Try_SignUp(login, password);
+    }
+    public static int SignInUser(String login, String password){
+        return DataBasePresenter.Try_SignIn(login, password);
     }
 
     @Override

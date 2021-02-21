@@ -11,8 +11,10 @@ public class InputView {
     public static String GetString() throws InputMismatchException{ return sc.nextLine();}
     public static void ClearInputBuffer() { sc.nextLine(); }
 
-    public static void StoreSignUpData(String login, String password) {
+    public static void CheckSignUpData(String login, String password) {
         InputPresenter.SignUpUser(login, password);
     }
-
+    public static int CheckSignInData(String login, String password) {
+        return InputPresenter.SignInUser(login, password);
+    }
 }

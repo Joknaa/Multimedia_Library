@@ -1,22 +1,12 @@
 package MVPModels;
 
 public class UserModel {
-    private int id;
-    private char[] login;
-    private char[] password;
+    static private String Login;
+    static private String Password;
 
-    public UserModel(){}
-    public UserModel(int id, char[] login, char[] password){
-        SetId(id);
-        SetLogin(login);
-        SetPassword(password);
-    }
+    public static void SetLogin(String login){ Login = login;}
+    public static void SetPassword(String password){ Password = password;}
 
-    public void SetId(int id){ this.id = id;}
-    public void SetLogin(char[] login){ this.login = login;}
-    public void SetPassword(char[] password){ this.password = password;}
-
-    public int GetId(){ return this.id;}
-    public char[] GetLogin(){ return this.login;}
-    public char[] GetPassword(){ return this.password;}
+    public static String GetLogin(){ return Login;}
+    public static String GetPassword(){ return Password;}
 }
