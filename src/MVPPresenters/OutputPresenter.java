@@ -11,4 +11,5 @@ public class OutputPresenter {
     public static void DisplayMessage(String s) { OutputView.DisplayMessage(s); }
     public static void DisplayError(String s) { OutputView.DisplayError(s); }
 
+    public static void DisplaySignUpConfirmation() { OutputView.DisplaySignUpConfirmation(); }
 }

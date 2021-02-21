@@ -1,7 +1,7 @@
 package MVPModels;
 
 public class DataBaseModel {
-    private static String url = "jdbc:mysql://localhost:3306";
+    private static String url = "jdbc:mysql://localhost:3306/myDatabase?autoReconnect=true&useSSL=false";
     private static String login = "root";
     private static String password = "";
 

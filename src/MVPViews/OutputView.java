@@ -4,6 +4,7 @@ import static javax.swing.JOptionPane.*;
 import MVPViews.UI.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Arrays;
 
 public class OutputView {
     private static final AppFrame appFrame = new AppFrame();
@@ -47,7 +48,6 @@ public class OutputView {
             }
 
             ReadSignUpData();
-            showMessageDialog(null, "SignUp Successful", "Confirmation", INFORMATION_MESSAGE);
         }
         private boolean ThereIsEmptyField() {
             boolean loginEmpty = loginField.getText().trim().length() == 0;
@@ -66,16 +66,19 @@ public class OutputView {
             return false;
         }
         private void ReadSignUpData() {
-            char[] login = loginField.getText().toCharArray();
-            char[] password = passwordField.getPassword();
-            char[] passwordRepeat = passwordRepeatField.getPassword();
-            InputView.StoreSignUpData(login, password, passwordRepeat);
+            String login = loginField.getText();
+            String password = String.valueOf(passwordField.getPassword());
+            InputView.StoreSignUpData(login, password);
         }
     }
     public static class OnMouseClick_CloseApp extends MouseAdapter {
         public void mouseClicked(MouseEvent e) { System.exit(0); }
      }
 
+    public static void DisplaySignUpConfirmation() {
+        showMessageDialog(null, "SignUp Successful",
+                "Confirmation", INFORMATION_MESSAGE);
+    }
 
     static public void DisplayMainMenu() {
         System.out.println();

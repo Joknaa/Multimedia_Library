@@ -24,6 +24,6 @@ public class MainPresenter {
     }
 
     private static void SetUpDataBase() {
-        Connect();
+        CheckDataBaseConnection();
     }
 }

@@ -28,8 +28,8 @@ public class InputPresenter extends Subscriber {
         return input;
     }
 
-    public static void SignUpUser(char[] login, char[] password){
-        UserPresenter.AddUser(login, password);
+    public static void SignUpUser(String login, String password){
+        DataBasePresenter.Try_AddUser(login, password);
     }
 
     @Override
