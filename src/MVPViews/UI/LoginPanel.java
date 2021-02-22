@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LoginPanel extends JPanel implements IPanel {
+public class LoginPanel extends JPanel implements IPanel, ActionListener {
     private final JPanel logoPanel = new JPanel();
     private final JPanel inputPanel = new JPanel();
     private final JSeparator loginSeparator = new JSeparator();
@@ -74,7 +74,7 @@ public class LoginPanel extends JPanel implements IPanel {
         SetupSeparator(passwordSeparator);
         SetupInputField(loginField);
         SetupInputField(passwordField);
-        SetupSubmitButton(signInButton, new OnAction_SignIn(loginField, passwordField));
+        SetupSubmitButton(signInButton, this);
         SetupSubmitButton(signUpButton, new OnAction_SwapPanels(signupPanel));
         SetupCloseButton();
         SetupInputPanelLayout();
@@ -190,5 +190,12 @@ public class LoginPanel extends JPanel implements IPanel {
                         .addComponent(logoPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(inputPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (signInButton.equals(e.getSource())) {
+            OnAction_SignIn(loginField, passwordField);
+        }
     }
 }

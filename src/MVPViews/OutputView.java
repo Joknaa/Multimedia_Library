@@ -1,14 +1,13 @@
 package MVPViews;
 
 import static javax.swing.JOptionPane.*;
-
-import MVPPresenters.DataBasePresenter;
+import static MVPPresenters.InputPresenter.*;
 import MVPViews.UI.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Arrays;
 
 public class OutputView {
-    public static final String CONFIRM_SIGNIN = "SignIn Successful @Confirmation";
     private static final AppFrame appFrame = new AppFrame();
     public static final IPanel mainPanel = new MainPanel();
     public static final IPanel signupPanel = new SignupPanel();
@@ -25,6 +24,20 @@ public class OutputView {
     public static void DisplayError(String error) {
         showMessageDialog(null, error.split("@")[0],
                 error.split("@")[1], ERROR_MESSAGE);
+    }
+
+    public static void OnAction_SignUp(JTextField login, JPasswordField password, JPasswordField passwordRepeat) {
+        String strLogin = login.getText();
+        String strPassword = String.valueOf(password.getPassword());
+        String strPasswordRepeat = String.valueOf(passwordRepeat.getPassword());
+        Try_SignUp(strLogin, strPassword, strPasswordRepeat);
+    }
+
+    public static void OnAction_SignIn(JTextField login, JPasswordField password){
+        String strLogin = login.getText();
+        String strPassword = String.valueOf(password.getPassword());
+        Try_SignIn(strLogin, strPassword);
+
     }
 
 //<editor-fold>
@@ -74,87 +87,8 @@ public class OutputView {
             appFrame.SetCurrentPanel(gotoPanel);
         }
     }
-    public static class OnAction_SignUp implements  ActionListener {
-        JTextField loginField;
-        JPasswordField passwordField;
-        JPasswordField passwordRepeatField;
-        public OnAction_SignUp(JTextField login, JPasswordField password, JPasswordField passwordRepeat){
-            this.loginField = login;
-            this.passwordField = password;
-            this.passwordRepeatField = passwordRepeat;
-        }
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            try {
-                Check_NoSignUpEmptyFieldsExist();
-                Check_PasswordMatch();
-                ReadSignUpData();
-            } catch (EmptyInputFieldException | PasswordMismatchException e) {
-                DisplayError(e.getMessage());
-            }
-        }
-        private void Check_NoSignUpEmptyFieldsExist() throws EmptyInputFieldException{
-            boolean loginEmpty = loginField.getText().trim().length() == 0;
-            boolean passwordEmpty = passwordField.getPassword().length == 0;
-            boolean passwordRepeatEmpty = passwordRepeatField.getPassword().length == 0;
-            if (loginEmpty || passwordEmpty || passwordRepeatEmpty)
-                throw new EmptyInputFieldException("Pls fill all the fields @Error");
-        }
-        private void Check_PasswordMatch() throws PasswordMismatchException{
-            char[] password = passwordField.getPassword();
-            char[] passwordRepeat = passwordRepeatField.getPassword();
-
-            if (passwordRepeat.length != password.length)
-                throw new PasswordMismatchException("Password doesnt match @Error");
-            for (int i = 0; i < password.length; i++) {
-                if (password[i] != passwordRepeat[i])
-                    throw new PasswordMismatchException("Password doesnt match @Error");
-            }
-        }
-        private void ReadSignUpData() {
-            String login = loginField.getText();
-            String password = String.valueOf(passwordField.getPassword());
-            InputView.CheckSignUpData(login, password);
-        }
-    }
-    public static class OnAction_SignIn implements  ActionListener {
-        JTextField loginField;
-        JPasswordField passwordField;
-        public OnAction_SignIn(JTextField login, JPasswordField password){
-            this.loginField = login;
-            this.passwordField = password;
-        }
-        @Override
-        public void actionPerformed(ActionEvent event) {
-            try {
-                Check_NoSignInEmptyFieldsExist();
-                if (ReadSignInData() == -1)
-                    throw new Exception();
-            } catch (EmptyInputFieldException e) {
-                DisplayError(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            System.out.println("going to main menu");
-            new OnAction_SwapPanels(mainPanel);
-        }
-        private void Check_NoSignInEmptyFieldsExist() throws EmptyInputFieldException {
-            boolean loginEmpty = loginField.getText().trim().length() == 0;
-            boolean passwordEmpty = passwordField.getPassword().length == 0;
-
-            if (loginEmpty || passwordEmpty)
-                throw new EmptyInputFieldException("Pls fill all the fields @Error");
-        }
-        private int ReadSignInData() {
-            String login = loginField.getText();
-            String password = String.valueOf(passwordField.getPassword());
-            return InputView.CheckSignInData(login, password);
-        }
-    }
     public static class OnMouseClick_CloseApp extends MouseAdapter {
         public void mouseClicked(MouseEvent e) { System.exit(0); }
     }
 
-    public static class EmptyInputFieldException extends Exception { EmptyInputFieldException(String s){ super(s);}}
-    public static class PasswordMismatchException extends Exception { PasswordMismatchException(String s){ super(s);}}
 }

@@ -1,11 +1,16 @@
 package MVPViews.UI;
 
+import MVPViews.OutputView;
+
 import static javax.swing.GroupLayout.*;
 import static MVPViews.OutputView.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
 
-public class SignupPanel extends JPanel implements IPanel {
+public class SignupPanel extends JPanel implements IPanel, ActionListener {
     private final JPanel logoPanel = new JPanel();
     private final JPanel inputPanel = new JPanel();
     private final JSeparator loginSeparator = new JSeparator();
@@ -101,7 +106,7 @@ public class SignupPanel extends JPanel implements IPanel {
         signUpButton.setFocusPainted(false);
         signUpButton.setFocusable(false);
         signUpButton.setOpaque(false);
-        signUpButton.addActionListener(new OnAction_SignUp(loginField, passwordField, passwordRepeatField));
+        signUpButton.addActionListener(this);
     }
 
     private void SetupCloseButton() {
@@ -201,5 +206,12 @@ public class SignupPanel extends JPanel implements IPanel {
                         .addComponent(logoPanel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(inputPanel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
         );
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (signUpButton.equals(e.getSource())) {
+            OnAction_SignUp(loginField, passwordField, passwordRepeatField);
+        }
     }
 }

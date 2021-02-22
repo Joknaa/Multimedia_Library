@@ -34,41 +34,29 @@ public class DataBasePresenter {
         }
     }
 
-    public static void Try_SignUp(String login, String password) {
-        try {
+    public static void SignUp(String login, String password) throws SQLException, ClassNotFoundException, UserAlreadyExistException {
             Connect();
-            Check_LoginAvailable(login);
-            SignUp(login, password);
+            SQL_Check_LoginAvailable(login);
+            SQL_SignUp(login, password);
             Disconnect();
-        } catch (ClassNotFoundException | SQLException | UserAlreadyExistException e) {
-            OutputPresenter.DisplayError(e.getMessage());
-        }
     }
-    private static void Check_LoginAvailable(String login) throws SQLException, UserAlreadyExistException {
+    private static void SQL_Check_LoginAvailable(String login) throws SQLException, UserAlreadyExistException {
         String query = "SELECT * FROM user WHERE Username='" + login + "';";
         ResultSet rt = Session.createStatement().executeQuery(query);
         if (rt.next()) throw new UserAlreadyExistException("login already exist @Error");
     }
-    private static void SignUp(String login, String password) throws SQLException {
+    private static void SQL_SignUp(String login, String password) throws SQLException {
         String query = "INSERT INTO user(username, password) VALUES ('" + login + "', '" + password + "');";
         Session.createStatement().executeUpdate(query);
     }
 
-    public static int Try_SignIn(String login, String password) {
-        try {
+    public static void SignIn(String login, String password) throws SQLException, ClassNotFoundException, UserNotFoundException {
             Connect();
-            Check_UserExist(login, password);
+            SQL_Check_UserExist(login, password);
             SignIn(login);
             Disconnect();
-        } catch (UserNotFoundException e) {
-            OutputPresenter.DisplayError(e.getMessage());
-            return -1;
-        } catch (ClassNotFoundException | SQLException e) {
-            OutputPresenter.DisplayError(e.getMessage());
-        }
-        return 0;
     }
-    private static void Check_UserExist(String login, String password) throws SQLException, UserNotFoundException {
+    private static void SQL_Check_UserExist(String login, String password) throws SQLException, UserNotFoundException {
         String query = "SELECT * FROM user WHERE Username='" + login + "' AND Password='" + password + "';";
         ResultSet rt = Session.createStatement().executeQuery(query);
         if (!rt.isBeforeFirst()){
