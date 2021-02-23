@@ -1,8 +1,10 @@
 package MVPPresenters;
 
 import MVPModels.DataBaseModel;
-import static javax.swing.JOptionPane.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import static MVPPresenters.OutputPresenter.*;
 
 public class DataBasePresenter {
     private static final String url = DataBaseModel.GetUrl();
@@ -13,19 +15,20 @@ public class DataBasePresenter {
     public static void CheckDataBaseConnection(){
         try {
             Connect();
-            Statement stmt = Session.createStatement();
-            String query = "SELECT * FROM user;";
-            ResultSet QueriedData = stmt.executeQuery(query);
+            SQL_TestConnectivity();
             Disconnect();
         } catch (SQLException | ClassNotFoundException e) {
-            showMessageDialog(null, "Ops !! You can't connect to the DataBase\n" + e,
-                    "Erreur", ERROR_MESSAGE);
+            DisplayError("Ops !! You can't connect to the DataBase @Error\n");
             System.exit(1);
         }
     }
     public static void Connect() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Session = DriverManager.getConnection(url,login,password) ;
+    }
+    private static void SQL_TestConnectivity() throws SQLException {
+        String query = "SELECT * FROM user;";
+        ResultSet dataSet = Session.createStatement().executeQuery(query);
     }
     public static void Disconnect() throws SQLException {
         if (Session != null){
@@ -64,6 +67,51 @@ public class DataBasePresenter {
         }
     }
     private static void SignIn(String login) { UserPresenter.SetCurrentUser(login); }
+
+    public static String[] GetListItems() throws SQLException, ClassNotFoundException {
+        String[] listItems;
+        Connect();
+        listItems = SQL_GetListItems();
+        Disconnect();
+        return listItems;
+    }
+    private static String[] SQL_GetListItems() throws SQLException {
+        String query = "SELECT Name FROM media;";
+        ResultSet dataSet = Session.createStatement().executeQuery(query);
+        return ConvertListItemsToStringArray(dataSet);
+    }
+    private static String[] ConvertListItemsToStringArray(ResultSet DataSet) throws SQLException {
+        List<String> dataList = new ArrayList<String>();
+        while (DataSet.next()) { dataList.add(DataSet.getString(1)); }
+
+        String[] dataStringArray = new String[dataList.size()];
+        dataList.toArray(dataStringArray);
+        return dataStringArray;
+    }
+
+    public static String[] GetItemDescription(String itemName) throws SQLException, ClassNotFoundException {
+        Connect();
+        String[] ItemDescription = SQL_GetItemDescription(itemName);
+        Disconnect();
+        return ItemDescription;
+    }
+    private static String[] SQL_GetItemDescription(String itemName) throws SQLException {
+        String query = "SELECT Type, UploadDate, Location FROM media WHERE Name='" + itemName + "';";
+        ResultSet dataSet = Session.createStatement().executeQuery(query);
+        return ConvertItemDescriptionToStringArray(dataSet);
+    }
+    private static String[] ConvertItemDescriptionToStringArray(ResultSet dataSet) throws SQLException {
+        List<String> dataList = new ArrayList<String>();
+        int i = 1;
+        dataSet.next();
+        int dataSetSize = dataSet.getMetaData().getColumnCount();
+        while (i <= dataSetSize) { dataList.add(dataSet.getString(i++)); }
+
+        String[] dataStringArray = new String[dataList.size()];
+        dataList.toArray(dataStringArray);
+        return dataStringArray;
+    }
+
 
     public static class UserNotFoundException extends Exception { UserNotFoundException(String s){ super(s);}}
     public static class UserAlreadyExistException extends Exception { UserAlreadyExistException(String s){ super(s);}}

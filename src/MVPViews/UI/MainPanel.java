@@ -1,14 +1,17 @@
 package MVPViews.UI;
 
+import MVPPresenters.OutputPresenter;
+
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.event.*;
 import javax.swing.table.*;
-import java.awt.event.*;
 import javax.swing.*;
+import static MVPViews.OutputView.*;
 import static javax.swing.GroupLayout.*;
 import java.awt.*;
 
 public class MainPanel extends JPanel implements IPanel {
+    //<editor-fold desc="Variables Declarations">">
     private final JPanel logoPanel = new JPanel();
     private final JPanel descriptionPanel = new JPanel();
     private final JPanel listPanel = new JPanel();
@@ -19,6 +22,7 @@ public class MainPanel extends JPanel implements IPanel {
     private final JTable descriptionTable = new JTable();
     private final JTextArea logoTextArea = new JTextArea();
     private final JButton closeButton = new JButton("X");
+    //</editor-fold>
 
     public MainPanel(){
         SetupLogoPanel();
@@ -26,13 +30,6 @@ public class MainPanel extends JPanel implements IPanel {
         SetupListPanel();
         SetupMainPanel();
     }
-
-    @Override
-    public JPanel GetPanel() { return this; }
-    @Override
-    public void Activate(){ this.setVisible(true);}
-    @Override
-    public void Deactivate(){ this.setVisible(false);}
 
     private void SetupLogoPanel() {
         SetupLogoTextArea();
@@ -178,11 +175,11 @@ public class MainPanel extends JPanel implements IPanel {
         list.setFixedCellHeight(40);
         list.setFixedCellWidth(40);
         list.setAutoscrolls(false);
-        list.addListSelectionListener(this::listValueChanged);
+        list.addListSelectionListener(this::ListSelectionChanged);
     }
     private void CreateMediaList() {
         list.setModel(new AbstractListModel<>() {
-            final String[] strings = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10"};
+            private final String[] strings = GetListContent();
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -203,26 +200,10 @@ public class MainPanel extends JPanel implements IPanel {
     }
 
     private void SetupMainPanel() {
-        SetupCloseButton();
+        SetupCloseButton(closeButton);
         SetupMainPanelLayout();
         setBackground(new Color(76, 96, 133));
         setPreferredSize(new Dimension(900, 500));
-    }
-    private void SetupCloseButton() {
-        closeButton.setBackground(new java.awt.Color(76, 96, 133));
-        closeButton.setFont(new java.awt.Font("Source Code Pro", Font.PLAIN, 24)); // NOI18N
-        closeButton.setForeground(new java.awt.Color(52, 66, 91));
-        closeButton.setText("X");
-        closeButton.setToolTipText("");
-        closeButton.setBorder(null);
-        closeButton.setContentAreaFilled(false);
-        closeButton.setFocusPainted(false);
-        closeButton.setFocusable(false);
-        closeButton.setMaximumSize(new java.awt.Dimension(100, 38));
-        closeButton.setMinimumSize(new java.awt.Dimension(100, 38));
-        closeButton.setPreferredSize(new java.awt.Dimension(100, 38));
-        closeButton.setFont(new Font("Segoe UI", Font.PLAIN, 24));
-        closeButton.addMouseListener(new OnMouseClickAction());
     }
     private void SetupMainPanelLayout() {
         GroupLayout MainPanelLayout = new GroupLayout(this);
@@ -259,22 +240,15 @@ public class MainPanel extends JPanel implements IPanel {
         );
     }
 
-    private void CloseMouseClicked(MouseEvent evt) {
-        // TODO add your handling code here:
-        System.exit(0);
-    }
-    private void listValueChanged(ListSelectionEvent evt) {
-        // TODO add your handling code here:
-        descriptionImage.setIcon(new ImageIcon("Resources/LoginScreen/library_120px.png"));
-        descriptionTable.getCellEditor(0, 1);
-        descriptionTable.setValueAt(list.getSelectedValue() + "Name", 0, 1);
-        descriptionTable.setValueAt(list.getSelectedValue() + "Type", 1, 1);
-        descriptionTable.setValueAt(list.getSelectedValue() + "Date", 2, 1);
-        descriptionTable.setValueAt(list.getSelectedValue() + "Location", 3, 1);
-    }
+    private void ListSelectionChanged(ListSelectionEvent evt) {
+        String selectedIndex = list.getSelectedValue();
+        if (!evt.getValueIsAdjusting()) OnlListSelection_UpdateDescription(selectedIndex, descriptionImage, descriptionTable); }
 
-    class OnMouseClickAction extends MouseAdapter { public void mouseClicked(MouseEvent e) { CloseApp(); }}
-    static class OnClickAction implements ActionListener { public void actionPerformed(ActionEvent e) {}}
+    @Override
+    public JPanel GetPanel() { return this; }
+    @Override
+    public void Activate(){ this.setVisible(true);}
+    @Override
+    public void Deactivate(){ this.setVisible(false);}
 
-    private void CloseApp() { System.exit(0); }
 }

@@ -2,6 +2,7 @@ package MVPViews.UI;
 
 import static MVPViews.OutputView.*;
 import javax.swing.*;
+import static javax.swing.GroupLayout.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -26,13 +27,6 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
         SetupMainPanel();
     }
 
-    @Override
-    public JPanel GetPanel() { return this; }
-    @Override
-    public void Activate(){ setVisible(true);}
-    @Override
-    public void Deactivate(){ setVisible(false);}
-
     private void SetupLogoPanel() {
         logoPanel.setBackground(new Color(52, 66, 91));
         SetupLogoTextPanel();
@@ -43,18 +37,18 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
 
         logoPanel.setLayout(logoPanelLayout);
         logoPanelLayout.setHorizontalGroup(
-                logoPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                logoPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(logoPanelLayout.createSequentialGroup()
                                 .addGap(165, 165, 165)
                                 .addComponent(LogoIconPanel)
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(GroupLayout.Alignment.TRAILING, logoPanelLayout.createSequentialGroup()
+                                .addContainerGap(DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(Alignment.TRAILING, logoPanelLayout.createSequentialGroup()
                                 .addContainerGap(105, Short.MAX_VALUE)
                                 .addComponent(LogoTextPanel)
                                 .addGap(93, 93, 93))
         );
         logoPanelLayout.setVerticalGroup(
-                logoPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                logoPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(logoPanelLayout.createSequentialGroup()
                                 .addContainerGap(138, Short.MAX_VALUE)
                                 .addComponent(LogoIconPanel)
@@ -70,103 +64,75 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
 
     private void SetupInputPanel() {
         inputPanel.setBackground(new Color(76, 96, 133));
-        SetupSeparator(loginSeparator);
-        SetupSeparator(passwordSeparator);
-        SetupInputField(loginField);
-        SetupInputField(passwordField);
+        SetupInputFields(loginField, passwordField);
+        SetupSeparators(loginSeparator,passwordSeparator);
         SetupSubmitButton(signInButton, this);
-        SetupSubmitButton(signUpButton, new OnAction_SwapPanels(signupPanel));
-        SetupCloseButton();
+        SetupSubmitButton(signUpButton, this);
+        SetupCloseButton(closeButton);
         SetupInputPanelLayout();
     }
-    private void SetupSeparator(JSeparator separator) {
-        separator.setBackground(new Color(190, 200, 218));
+    private void SetupSeparators(JSeparator... separators) {
+        for (JSeparator separator : separators) {
+            separator.setBackground(new Color(190, 200, 218));
+        }
     }
-    private void SetupInputField(JTextField inputField) {
-        inputField.setBackground(new Color(76, 96, 133));
-        inputField.setForeground(new Color(190, 200, 218));
-        inputField.setBorder(null);
-    }
-    private void SetupSubmitButton(JButton submitButton, ActionListener actionListener) {
-        submitButton.setBorder(BorderFactory.createLineBorder(new Color(190, 200, 218)));
-        submitButton.setPreferredSize(new Dimension(100, 38));
-        submitButton.setMaximumSize(new Dimension(100, 38));
-        submitButton.setMinimumSize(new Dimension(100, 38));
-        submitButton.setBackground(new Color(76, 96, 133));
-        submitButton.setForeground(new Color(190, 200, 218));
-        submitButton.setContentAreaFilled(false);
-        submitButton.setFocusPainted(false);
-        submitButton.setFocusable(false);
-        submitButton.setOpaque(false);
-        submitButton.addActionListener(actionListener);
-    }
-
-    private void SetupCloseButton() {
-        closeButton.setBackground(new Color(76, 96, 133));
-        closeButton.setFont(new Font("Source Code Pro", 0, 24));
-        closeButton.setForeground(new Color(52, 66, 91));
-        closeButton.setText("X");
-        closeButton.setToolTipText("");
-        closeButton.setBorder(null);
-        closeButton.setContentAreaFilled(false);
-        closeButton.setFocusPainted(false);
-        closeButton.setFocusable(false);
-        closeButton.setMaximumSize(new Dimension(100, 38));
-        closeButton.setMinimumSize(new Dimension(100, 38));
-        closeButton.setPreferredSize(new Dimension(100, 38));
-        closeButton.setFont(new Font("Segoe UI", Font.PLAIN, 24));
-        closeButton.addMouseListener(new OnMouseClick_CloseApp());
+    private void SetupInputFields(JTextField... inputFields) {
+        for (JTextField inputField : inputFields) {
+            inputField.setBackground(new Color(76, 96, 133));
+            inputField.setForeground(new Color(190, 200, 218));
+            inputField.setBorder(null);
+        }
     }
     private void SetupInputPanelLayout() {
         var inputPanelLayout = new GroupLayout(inputPanel);
 
         inputPanel.setLayout(inputPanelLayout);
         inputPanelLayout.setHorizontalGroup(
-                inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                inputPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(inputPanelLayout.createSequentialGroup()
                                 .addGap(83, 83, 83)
-                                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(inputPanelLayout.createParallelGroup(Alignment.TRAILING)
                                         .addGroup(inputPanelLayout.createSequentialGroup()
-                                                .addComponent(signInButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(signInButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
                                                 .addGap(34, 34, 34)
-                                                .addComponent(signUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(signUpButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
                                                 .addGap(15, 15, 15))
                                         .addGroup(inputPanelLayout.createSequentialGroup()
-                                                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(passwordLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(loginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGroup(inputPanelLayout.createParallelGroup(Alignment.LEADING, false)
+                                                        .addComponent(passwordLabel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(loginLabel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE))
                                                 .addGap(26, 26, 26)
-                                                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(inputPanelLayout.createParallelGroup(Alignment.LEADING, false)
                                                         .addComponent(loginSeparator)
                                                         .addComponent(loginField)
                                                         .addComponent(passwordField)
-                                                        .addComponent(passwordSeparator, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addComponent(passwordSeparator, Alignment.TRAILING, PREFERRED_SIZE, 226, PREFERRED_SIZE))))
                                 .addContainerGap(85, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inputPanelLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(Alignment.TRAILING, inputPanelLayout.createSequentialGroup()
+                                .addContainerGap(DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(closeButton, PREFERRED_SIZE, 21, PREFERRED_SIZE)
                                 .addGap(8, 8, 8))
         );
         inputPanelLayout.setVerticalGroup(
-                inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                inputPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(inputPanelLayout.createSequentialGroup()
                                 .addGap(8, 8, 8)
-                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(closeButton, PREFERRED_SIZE, 23, PREFERRED_SIZE)
                                 .addGap(73, 73, 73)
-                                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(inputPanelLayout.createParallelGroup(Alignment.TRAILING)
                                         .addComponent(loginLabel)
-                                        .addComponent(loginField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(loginSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(loginField, PREFERRED_SIZE, 40, PREFERRED_SIZE))
+                                .addComponent(loginSeparator, PREFERRED_SIZE, 10, PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(inputPanelLayout.createParallelGroup(Alignment.TRAILING)
+                                        .addComponent(passwordField, PREFERRED_SIZE, 39, PREFERRED_SIZE)
                                         .addComponent(passwordLabel))
                                 .addGap(0, 0, 0)
-                                .addComponent(passwordSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(passwordSeparator, PREFERRED_SIZE, 13, PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
-                                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(signInButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(signUpButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(inputPanelLayout.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(signInButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
+                                        .addComponent(signUpButton, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(194, 194, 194))
         );
     }
@@ -179,23 +145,33 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
 
         this.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
-                mainPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                mainPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(logoPanel, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(inputPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(inputPanel, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE))
         );
         mainPanelLayout.setVerticalGroup(
-                mainPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(logoPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(inputPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                mainPanelLayout.createParallelGroup(Alignment.LEADING)
+                        .addComponent(logoPanel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(inputPanel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }
 
+
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (signInButton.equals(e.getSource())) {
+    public JPanel GetPanel() { return this; }
+    @Override
+    public void Activate(){ setVisible(true);}
+    @Override
+    public void Deactivate(){ setVisible(false);}
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        if (event.getSource().equals(signInButton))
             OnAction_SignIn(loginField, passwordField);
-        }
+        else if (event.getSource().equals(signUpButton))
+            OnAction_SwapPanels(signUpPanel);
+
     }
+
 }

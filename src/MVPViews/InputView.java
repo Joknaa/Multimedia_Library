@@ -1,9 +1,5 @@
 package MVPViews;
 
-import MVPPresenters.DataBasePresenter;
-import MVPPresenters.InputPresenter;
-
-import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

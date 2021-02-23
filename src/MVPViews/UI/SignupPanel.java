@@ -1,5 +1,6 @@
 package MVPViews.UI;
 
+import MVPPresenters.OutputPresenter;
 import MVPViews.OutputView;
 
 import static javax.swing.GroupLayout.*;
@@ -8,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class SignupPanel extends JPanel implements IPanel, ActionListener {
     private final JPanel logoPanel = new JPanel();
@@ -32,13 +32,6 @@ public class SignupPanel extends JPanel implements IPanel, ActionListener {
         SetupInputPanel();
         SetupMainPanel();
     }
-
-    @Override
-    public JPanel GetPanel() { return this; }
-    @Override
-    public void Activate(){ this.setVisible(true);}
-    @Override
-    public void Deactivate(){ this.setVisible(false);}
 
     private void SetupLogoPanel() {
         logoPanel.setBackground(new Color(52, 66, 91));
@@ -77,53 +70,11 @@ public class SignupPanel extends JPanel implements IPanel, ActionListener {
 
     private void SetupInputPanel() {
         inputPanel.setBackground(new Color(76, 96, 133));
-        SetupSeparator(loginSeparator);
-        SetupSeparator(passwordSeparator);
-        SetupSeparator(passwordRepeatSeparator);
-        SetupInputField(loginField);
-        SetupInputField(passwordField);
-        SetupInputField(passwordRepeatField);
-        SetupSignUpButton();
-        SetupCloseButton();
+        SetupInputFields(loginField, passwordField, passwordRepeatField);
+        SetupSeparators(loginSeparator, passwordSeparator, passwordRepeatSeparator);
+        SetupSubmitButton(signUpButton, this);
+        SetupCloseButton(closeButton);
         SetupInputPanelLayout();
-    }
-    private void SetupSeparator(JSeparator separator) {
-        separator.setBackground(new Color(190, 200, 218));
-    }
-    private void SetupInputField(JTextField inputField) {
-        inputField.setBackground(new Color(76, 96, 133));
-        inputField.setForeground(new Color(190, 200, 218));
-        inputField.setBorder(null);
-    }
-    private void SetupSignUpButton() {
-        signUpButton.setBorder(BorderFactory.createLineBorder(new Color(190, 200, 218)));
-        signUpButton.setPreferredSize(new Dimension(100, 38));
-        signUpButton.setMaximumSize(new Dimension(100, 38));
-        signUpButton.setMinimumSize(new Dimension(100, 38));
-        signUpButton.setBackground(new Color(76, 96, 133));
-        signUpButton.setForeground(new Color(190, 200, 218));
-        signUpButton.setContentAreaFilled(false);
-        signUpButton.setFocusPainted(false);
-        signUpButton.setFocusable(false);
-        signUpButton.setOpaque(false);
-        signUpButton.addActionListener(this);
-    }
-
-    private void SetupCloseButton() {
-        closeButton.setBackground(new java.awt.Color(76, 96, 133));
-        closeButton.setFont(new java.awt.Font("Source Code Pro", Font.PLAIN, 24));
-        closeButton.setForeground(new java.awt.Color(52, 66, 91));
-        closeButton.setText("X");
-        closeButton.setToolTipText("");
-        closeButton.setBorder(null);
-        closeButton.setContentAreaFilled(false);
-        closeButton.setFocusPainted(false);
-        closeButton.setFocusable(false);
-        closeButton.setMaximumSize(new java.awt.Dimension(100, 38));
-        closeButton.setMinimumSize(new java.awt.Dimension(100, 38));
-        closeButton.setPreferredSize(new java.awt.Dimension(100, 38));
-        closeButton.setFont(new Font("Segoe UI", Font.PLAIN, 24));
-        closeButton.addMouseListener(new OnMouseClick_CloseApp());
     }
     private void SetupInputPanelLayout() {
         var inputPanelLayout = new GroupLayout(inputPanel);
@@ -182,8 +133,9 @@ public class SignupPanel extends JPanel implements IPanel, ActionListener {
                                 .addGap(0, 0, 0)
                                 .addComponent(passwordRepeatSeparator, PREFERRED_SIZE, 13, PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
-                                .addComponent(signUpButton, DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                                .addGap(96, 96, 96))
+                                .addComponent(signUpButton, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(121, 121, 121)
+                        )
         );
     }
 
@@ -209,9 +161,11 @@ public class SignupPanel extends JPanel implements IPanel, ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (signUpButton.equals(e.getSource())) {
-            OnAction_SignUp(loginField, passwordField, passwordRepeatField);
-        }
-    }
+    public JPanel GetPanel() { return this; }
+    @Override
+    public void Activate(){ this.setVisible(true);}
+    @Override
+    public void Deactivate(){ this.setVisible(false);}
+    @Override
+    public void actionPerformed(ActionEvent e) { OnAction_SignUp(loginField, passwordField, passwordRepeatField); }
 }
