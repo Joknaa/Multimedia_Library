@@ -7,19 +7,21 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class LoginPanel extends JPanel implements IPanel, ActionListener {
+    //<editor-fold desc="Variables Declarations">">
     private final JPanel logoPanel = new JPanel();
     private final JPanel inputPanel = new JPanel();
     private final JSeparator loginSeparator = new JSeparator();
     private final JSeparator passwordSeparator = new JSeparator();
-    private final JLabel LogoIconPanel = new JLabel(new ImageIcon("Resources/LoginScreen/library_120px.png"));
+    private final JLabel LogoIconLabel = new JLabel(new ImageIcon("Resources/LoginScreen/library_120px.png"));
     private final JLabel passwordLabel = new JLabel(new ImageIcon("Resources/LoginScreen/lock_30px.png"));
     private final JLabel loginLabel = new JLabel(new ImageIcon("Resources/LoginScreen/user_30px.png"));
-    private final JLabel LogoTextPanel = new JLabel("Multimedia Library");
+    private final JLabel LogoTextLabel = new JLabel("Multimedia Library");
     private final JButton signInButton = new JButton("Sign In");
     private final JButton signUpButton = new JButton("Sign Up");
     private final JButton closeButton = new JButton("X");
     private final JPasswordField passwordField = new JPasswordField();
     private final JTextField loginField = new JTextField();
+    //</editor-fold>
 
     public LoginPanel() {
         SetupLogoPanel();
@@ -30,44 +32,19 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
     private void SetupLogoPanel() {
         logoPanel.setBackground(new Color(52, 66, 91));
         SetupLogoTextPanel();
-        SetupLogoPanelLayout();
-    }
-    private void SetupLogoPanelLayout() {
-        var logoPanelLayout = new GroupLayout(logoPanel);
-
-        logoPanel.setLayout(logoPanelLayout);
-        logoPanelLayout.setHorizontalGroup(
-                logoPanelLayout.createParallelGroup(Alignment.LEADING)
-                        .addGroup(logoPanelLayout.createSequentialGroup()
-                                .addGap(165, 165, 165)
-                                .addComponent(LogoIconPanel)
-                                .addContainerGap(DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(Alignment.TRAILING, logoPanelLayout.createSequentialGroup()
-                                .addContainerGap(105, Short.MAX_VALUE)
-                                .addComponent(LogoTextPanel)
-                                .addGap(93, 93, 93))
-        );
-        logoPanelLayout.setVerticalGroup(
-                logoPanelLayout.createParallelGroup(Alignment.LEADING)
-                        .addGroup(logoPanelLayout.createSequentialGroup()
-                                .addContainerGap(138, Short.MAX_VALUE)
-                                .addComponent(LogoIconPanel)
-                                .addGap(18, 18, 18)
-                                .addComponent(LogoTextPanel)
-                                .addGap(193, 193, 193))
-        );
+        SetupLogoPanelLayout(logoPanel, LogoIconLabel, LogoTextLabel);
     }
     private void SetupLogoTextPanel() {
-        LogoTextPanel.setForeground(new Color(76, 96, 133));
-        LogoTextPanel.setFont(new Font("Source Code Pro", Font.PLAIN, 24));
+        LogoTextLabel.setForeground(new Color(76, 96, 133));
+        LogoTextLabel.setFont(new Font("Source Code Pro", Font.PLAIN, 24));
     }
 
     private void SetupInputPanel() {
         inputPanel.setBackground(new Color(76, 96, 133));
         SetupInputFields(loginField, passwordField);
         SetupSeparators(loginSeparator,passwordSeparator);
-        SetupSubmitButton(signInButton, this);
-        SetupSubmitButton(signUpButton, this);
+        SetupSubmitButton(signInButton, this, true, "Click to login");
+        SetupSubmitButton(signUpButton, this, true, "Click to creat an account");
         SetupCloseButton(closeButton);
         SetupInputPanelLayout();
     }
@@ -167,11 +144,7 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
     public void Deactivate(){ setVisible(false);}
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (event.getSource().equals(signInButton))
-            OnAction_SignIn(loginField, passwordField);
-        else if (event.getSource().equals(signUpButton))
-            OnAction_SwapPanels(signUpPanel);
-
+        if (event.getSource().equals(signInButton)) OnClick_SignIn(loginField, passwordField);
+        else if (event.getSource().equals(signUpButton)) OnClick_SwapPanels(signUpPanel);
     }
-
 }

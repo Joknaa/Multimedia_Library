@@ -1,7 +1,5 @@
 package MVPViews.UI;
 
-import MVPPresenters.OutputPresenter;
-
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.event.*;
 import javax.swing.table.*;
@@ -9,23 +7,31 @@ import javax.swing.*;
 import static MVPViews.OutputView.*;
 import static javax.swing.GroupLayout.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MainPanel extends JPanel implements IPanel {
+public class MainPanel extends JPanel implements IPanel, ActionListener {
     //<editor-fold desc="Variables Declarations">">
     private final JPanel logoPanel = new JPanel();
+    private final JPanel headerPanel = new JPanel();
     private final JPanel descriptionPanel = new JPanel();
     private final JPanel listPanel = new JPanel();
     private final JList<String> list = new JList<>();
     private final JLabel logoLabel = new JLabel(new ImageIcon("Resources/LoginScreen/library_80px Dark.png"));
+    private final JLabel greetingLabel = new JLabel("Greeting Oknaa!");
     private final JLabel descriptionImage = new JLabel();
     private final JScrollPane scrollPanList = new JScrollPane();
     private final JTable descriptionTable = new JTable();
     private final JTextArea logoTextArea = new JTextArea();
     private final JButton closeButton = new JButton("X");
+    private final JButton addButton = new JButton("Add");
+    private final JButton editButton = new JButton("Edit");
+    private final JButton deleteButton = new JButton("Delete");
     //</editor-fold>
 
     public MainPanel(){
         SetupLogoPanel();
+        SetupHeaderPanel();
         SetupDescriptionPanel();
         SetupListPanel();
         SetupMainPanel();
@@ -53,21 +59,64 @@ public class MainPanel extends JPanel implements IPanel {
         GroupLayout LogoPanelLayout = new GroupLayout(logoPanel);
         logoPanel.setLayout(LogoPanelLayout);
         LogoPanelLayout.setHorizontalGroup(
-                LogoPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                LogoPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(LogoPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(logoLabel)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(logoTextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(logoTextArea, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
                                 .addContainerGap(19, Short.MAX_VALUE))
         );
         LogoPanelLayout.setVerticalGroup(
-                LogoPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                LogoPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(LogoPanelLayout.createSequentialGroup()
-                                .addGroup(LogoPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                .addGroup(LogoPanelLayout.createParallelGroup(Alignment.LEADING, false)
                                         .addComponent(logoTextArea)
-                                        .addComponent(logoLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(logoLabel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(64, 64, 64))
+        );
+    }
+
+    private void SetupHeaderPanel() {
+        headerPanel.setBackground(new Color(52, 66, 91));
+        SetupGreetingLabel();
+        SetupSubmitButton(addButton, this, true, "Add an item to the list");
+        SetupSubmitButton(editButton, this, false, "Edit an item in the list");
+        SetupSubmitButton(deleteButton, this, false, "Delete an item from the list");
+        SetupHeaderPanelLayout();
+    }
+    private void SetupGreetingLabel() {
+        greetingLabel.setFont(new Font("Source Code Pro Light", Font.PLAIN, 24));
+        greetingLabel.setForeground(new Color(190, 200, 218));
+        greetingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        greetingLabel.setText("Welcome " + GetCurrentUser() + "!");
+    }
+    private void SetupHeaderPanelLayout() {
+        javax.swing.GroupLayout headerPanelLayout = new GroupLayout(headerPanel);
+        headerPanel.setLayout(headerPanelLayout);
+        headerPanelLayout.setHorizontalGroup(
+                headerPanelLayout.createParallelGroup(Alignment.LEADING)
+                        .addGroup(headerPanelLayout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(addButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(editButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                                .addComponent(deleteButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
+                                .addGap(42, 42, 42))
+                        .addComponent(greetingLabel, Alignment.TRAILING, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        headerPanelLayout.setVerticalGroup(
+                headerPanelLayout.createParallelGroup(Alignment.LEADING)
+                        .addGroup(headerPanelLayout.createSequentialGroup()
+                                .addComponent(greetingLabel)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(headerPanelLayout.createParallelGroup(Alignment.LEADING)
+                                        .addGroup(headerPanelLayout.createParallelGroup(Alignment.BASELINE)
+                                                .addComponent(editButton, PREFERRED_SIZE, 23, PREFERRED_SIZE)
+                                                .addComponent(addButton, PREFERRED_SIZE, 23, PREFERRED_SIZE))
+                                        .addComponent(deleteButton, PREFERRED_SIZE, 23, PREFERRED_SIZE))
+                                .addContainerGap(DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }
 
@@ -98,20 +147,10 @@ public class MainPanel extends JPanel implements IPanel {
         descriptionTable.setRowHeight(35);
     }
     private void CreateDescriptionTable() {
-        descriptionTable.setModel(new DefaultTableModel(
-                new String [][] {
-                        {"Name", null},
-                        {"Type", null},
-                        {"Date", null},
-                        {"Location", null}
-                },
-                new String [] {
-                        "", ""
-                }
-        ) {
-            final Class[] types = new Class [] {String.class, String.class };
+        String[][] data = {{"Name", null}, {"Type", null}, {"Date", null}, {"Location", null}};
+        String[] columnNames = {"", ""};
+        descriptionTable.setModel(new DefaultTableModel(data,columnNames) {
             final boolean[] canEdit = new boolean [] { false, false };
-            public Class getColumnClass(int columnIndex) { return types [columnIndex]; }
             public boolean isCellEditable(int rowIndex, int columnIndex) { return canEdit [columnIndex]; }
         });
     }
@@ -119,24 +158,24 @@ public class MainPanel extends JPanel implements IPanel {
         GroupLayout descriptionPanelLayout = new GroupLayout(descriptionPanel);
         descriptionPanel.setLayout(descriptionPanelLayout);
         descriptionPanelLayout.setHorizontalGroup(
-                descriptionPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                descriptionPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(descriptionPanelLayout.createSequentialGroup()
-                                .addGroup(descriptionPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(descriptionPanelLayout.createParallelGroup(Alignment.LEADING)
                                         .addGroup(descriptionPanelLayout.createSequentialGroup()
                                                 .addGap(155, 155, 155)
-                                                .addComponent(descriptionImage, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(descriptionImage, PREFERRED_SIZE, 150, PREFERRED_SIZE))
                                         .addGroup(descriptionPanelLayout.createSequentialGroup()
                                                 .addContainerGap()
-                                                .addComponent(descriptionTable, GroupLayout.PREFERRED_SIZE, 436, GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(descriptionTable, PREFERRED_SIZE, 436, PREFERRED_SIZE)))
                                 .addContainerGap(17, Short.MAX_VALUE))
         );
         descriptionPanelLayout.setVerticalGroup(
-                descriptionPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                descriptionPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(descriptionPanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(descriptionImage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(descriptionImage, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(39, 39, 39)
-                                .addComponent(descriptionTable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(descriptionTable, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
                                 .addGap(26, 26, 26))
         );
     }
@@ -188,14 +227,14 @@ public class MainPanel extends JPanel implements IPanel {
         GroupLayout ListPanelLayout = new GroupLayout(listPanel);
         listPanel.setLayout(ListPanelLayout);
         ListPanelLayout.setHorizontalGroup(
-                ListPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                ListPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(ListPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(scrollPanList))
         );
         ListPanelLayout.setVerticalGroup(
-                ListPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(scrollPanList, GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                ListPanelLayout.createParallelGroup(Alignment.LEADING)
+                        .addComponent(scrollPanList, DEFAULT_SIZE, 336, Short.MAX_VALUE)
         );
     }
 
@@ -211,16 +250,17 @@ public class MainPanel extends JPanel implements IPanel {
         MainPanelLayout.setHorizontalGroup(
                 MainPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(MainPanelLayout.createSequentialGroup()
-                                .addContainerGap(41, Short.MAX_VALUE)
+                                .addGap(41, 41, 41)
                                 .addGroup(MainPanelLayout.createParallelGroup(Alignment.LEADING, false)
                                         .addComponent(logoPanel, DEFAULT_SIZE, 322, Short.MAX_VALUE)
                                         .addComponent(listPanel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(34, 34, 34)
                                 .addGroup(MainPanelLayout.createParallelGroup(Alignment.LEADING)
                                         .addGroup(MainPanelLayout.createSequentialGroup()
-                                                .addGap(34, 34, 34)
                                                 .addComponent(descriptionPanel, PREFERRED_SIZE, 468, PREFERRED_SIZE)
                                                 .addContainerGap(35, Short.MAX_VALUE))
                                         .addGroup(Alignment.TRAILING, MainPanelLayout.createSequentialGroup()
+                                                .addComponent(headerPanel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(closeButton, PREFERRED_SIZE, 21, PREFERRED_SIZE)
                                                 .addGap(8, 8, 8))))
@@ -229,9 +269,10 @@ public class MainPanel extends JPanel implements IPanel {
                 MainPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(MainPanelLayout.createSequentialGroup()
                                 .addGap(8, 8, 8)
-                                .addGroup(MainPanelLayout.createParallelGroup(Alignment.LEADING)
+                                .addGroup(MainPanelLayout.createParallelGroup(Alignment.LEADING, false)
                                         .addComponent(closeButton, PREFERRED_SIZE, 23, PREFERRED_SIZE)
-                                        .addComponent(logoPanel, PREFERRED_SIZE, 80, PREFERRED_SIZE))
+                                        .addComponent(logoPanel, PREFERRED_SIZE, 80, PREFERRED_SIZE)
+                                        .addComponent(headerPanel, DEFAULT_SIZE, DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(33, 33, 33)
                                 .addGroup(MainPanelLayout.createParallelGroup(Alignment.LEADING, false)
                                         .addComponent(descriptionPanel, DEFAULT_SIZE, 336, Short.MAX_VALUE)
@@ -241,8 +282,12 @@ public class MainPanel extends JPanel implements IPanel {
     }
 
     private void ListSelectionChanged(ListSelectionEvent evt) {
-        String selectedIndex = list.getSelectedValue();
-        if (!evt.getValueIsAdjusting()) OnlListSelection_UpdateDescription(selectedIndex, descriptionImage, descriptionTable); }
+        String selectedValue = list.getSelectedValue();
+        if (!evt.getValueIsAdjusting()) {
+            editButton.setEnabled(true);
+            deleteButton.setEnabled(true);
+            OnlListSelection_UpdateDescription(selectedValue, descriptionImage, descriptionTable);
+        } }
 
     @Override
     public JPanel GetPanel() { return this; }
@@ -250,5 +295,13 @@ public class MainPanel extends JPanel implements IPanel {
     public void Activate(){ this.setVisible(true);}
     @Override
     public void Deactivate(){ this.setVisible(false);}
-
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        if (event.getSource().equals(addButton))
+            OnClick_AddItem();
+        else if (event.getSource().equals(editButton))
+            OnClick_EditItem(list.getSelectedValue(), descriptionImage, descriptionTable);
+        else if (event.getSource().equals(deleteButton))
+            OnClick_DeleteItem(list.getSelectedValue());
+    }
 }

@@ -112,6 +112,34 @@ public class DataBasePresenter {
         return dataStringArray;
     }
 
+    public static void EditItem(String itemName, String newItemName) throws SQLException, ClassNotFoundException {
+        Connect();
+        int id = SQL_GetItemID(itemName);
+        SQL_EditItem(id, newItemName);
+        Disconnect();
+    }
+
+    private static int SQL_GetItemID(String itemName) throws SQLException {
+        String query = "SELECT ID FROM media WHERE Name = '" + itemName + "';";
+        ResultSet dataSet = Session.createStatement().executeQuery(query);
+        dataSet.next();
+        return dataSet.getInt(1);
+    }
+
+    private static void SQL_EditItem(int itemID, String newItemName) throws SQLException {
+        String query = "UPDATE media SET Name='" + newItemName + "' WHERE ID='" + itemID +"';";
+        Session.createStatement().executeUpdate(query);
+    }
+
+    public static void DeleteItem(String itemName) throws SQLException, ClassNotFoundException {
+        Connect();
+        SQL_DeleteItem(itemName);
+        Disconnect();
+    }
+    private static void SQL_DeleteItem(String itemName) throws SQLException {
+        String query = "DELETE FROM media WHERE Name='" + itemName + "';";
+        Session.createStatement().executeUpdate(query);
+    }
 
     public static class UserNotFoundException extends Exception { UserNotFoundException(String s){ super(s);}}
     public static class UserAlreadyExistException extends Exception { UserAlreadyExistException(String s){ super(s);}}
