@@ -1,5 +1,7 @@
 package MVPPresenters;
 
+import javax.swing.*;
+
 import static MVPViews.OutputView.*;
 import static MVPPresenters.DataBasePresenter.*;
 import java.sql.SQLException;
@@ -37,7 +39,40 @@ public class InputPresenter {
             DisplayError(e.getMessage());
         }
     }
+    public static String Try_GetNewItemNameInput(DefaultListModel<String> listModel) {
+        String newItemName = "";
+        try {
+            newItemName = GetNewItemNameInput();
+            Check_InputIsValid(newItemName, listModel);
+        } catch (EmptyInputFieldException | ItemNameAlreadyExistException e) {
+            DisplayError(e.getMessage());
+        }
+        return newItemName;
+    }
+    private static void Check_InputIsValid(String newItemName, DefaultListModel<String> listModel)
+            throws EmptyInputFieldException, ItemNameAlreadyExistException {
+        if (newItemName.isEmpty())
+            throw new EmptyInputFieldException("Invalid name !");
+        if (listModel.contains(newItemName))
+            throw new ItemNameAlreadyExistException("There is already an item with the same name");
+    }
+
+    public static boolean Try_AddMedia(String[] mediaData) {
+        boolean mediaAdded = true;
+        try {
+            AddMedia(mediaData);
+        } catch (SQLException | ClassNotFoundException e){
+            DisplayError(e.getMessage());
+            mediaAdded = false;
+        }
+        return mediaAdded;
+    }
+
+    private static String GetNewItemNameInput() {
+        return DisplayInputDialog().trim();
+    }
 
     public static class EmptyInputFieldException extends Exception { EmptyInputFieldException(String s){ super(s);}}
+    public static class ItemNameAlreadyExistException extends Exception { ItemNameAlreadyExistException(String s){ super(s);}}
     public static class PasswordMismatchException extends Exception { PasswordMismatchException(String s){ super(s);}}
 }

@@ -27,6 +27,7 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
     private final JButton addButton = new JButton("Add");
     private final JButton editButton = new JButton("Edit");
     private final JButton deleteButton = new JButton("Delete");
+    private final DefaultListModel<String> defaultListModel = new DefaultListModel<>();
     //</editor-fold>
 
     public MainPanel(){
@@ -152,6 +153,8 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
         descriptionTable.setModel(new DefaultTableModel(data,columnNames) {
             final boolean[] canEdit = new boolean [] { false, false };
             public boolean isCellEditable(int rowIndex, int columnIndex) { return canEdit [columnIndex]; }
+
+
         });
     }
     private void SetupDescriptionPanelLayout() {
@@ -204,7 +207,7 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
     }
     private void SetupMediaList() {
         CreateMediaList();
-        list.setFont(new Font("Source Code Pro", Font.PLAIN, 18)); // NOI18N
+        list.setFont(new Font("Source Code Pro", Font.PLAIN, 18));
         list.setSelectionBackground(new Color(190, 200, 218));
         list.setSelectionForeground(new Color(52, 66, 91));
         list.setBackground(new Color(52, 66, 91));
@@ -216,12 +219,10 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
         list.setAutoscrolls(false);
         list.addListSelectionListener(this::ListSelectionChanged);
     }
-    private void CreateMediaList() {
-        list.setModel(new AbstractListModel<>() {
-            private final String[] strings = GetListContent();
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+    public void CreateMediaList() {
+        String[] listData = GetListContent();
+        list.setModel(defaultListModel);
+        for (String element : listData) { defaultListModel.addElement(element); }
     }
     private void SetupListPanelLayout() {
         GroupLayout ListPanelLayout = new GroupLayout(listPanel);
@@ -298,10 +299,10 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getSource().equals(addButton))
-            OnClick_AddItem();
+            OnClick_AddMedia(list, defaultListModel, descriptionImage, descriptionTable);
         else if (event.getSource().equals(editButton))
-            OnClick_EditItem(list.getSelectedValue(), descriptionImage, descriptionTable);
+            OnClick_EditMedia(list, defaultListModel, descriptionImage, descriptionTable);
         else if (event.getSource().equals(deleteButton))
-            OnClick_DeleteItem(list.getSelectedValue());
+            OnClick_DeleteMedia(list, defaultListModel);
     }
 }

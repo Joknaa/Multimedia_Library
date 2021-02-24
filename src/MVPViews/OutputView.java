@@ -6,9 +6,13 @@ import static javax.swing.JOptionPane.*;
 import static MVPPresenters.InputPresenter.*;
 import MVPPresenters.OutputPresenter;
 import MVPViews.UI.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class OutputView {
     private static final AppFrame appFrame = new AppFrame();
@@ -35,7 +39,7 @@ public class OutputView {
         appFrame.GetCurrentPanel().setVisible(false);
         appFrame.SetCurrentPanel(gotoPanel);}
     public static void OnlListSelection_UpdateDescription(String selectedValue, JLabel descriptionImage, JTable descriptionTable) {
-        String[] ItemDescription = Try_GetItemDescription(selectedValue);
+        String[] ItemDescription = Try_GetMediaDescription(selectedValue);
 
         descriptionImage.setIcon(new ImageIcon("Resources/LoginScreen/library_120px.png"));
         descriptionTable.getCellEditor(0, 1);
@@ -44,25 +48,48 @@ public class OutputView {
         descriptionTable.setValueAt(ItemDescription[1], 2, 1);
         descriptionTable.setValueAt(ItemDescription[2], 3, 1);
     }
-    public static void OnClick_AddItem(){ System.out.println("Adding"); }
-    public static void OnClick_EditItem(String itemName,JLabel descriptionImage, JTable descriptionTable){
-        String newItemName = "hehedmjendzpe";
-        Try_EditItem(itemName, newItemName);
-        OnlListSelection_UpdateDescription(newItemName, descriptionImage, descriptionTable);
-        System.out.println(itemName);
-    }
-    public static void OnClick_DeleteItem(String itemName){
-        int response = DisplayConfirmation();
-        if (response == 0) {
-            Try_DeleteItem(itemName);
-            GetListContent();
+    public static void OnClick_AddMedia(JList<String> list, DefaultListModel<String> listModel, JLabel descriptionImage, JTable descriptionTable){
+        String[] mediaData = GetDataFromFile();
+        boolean mediaAdded = Try_AddMedia(mediaData);
+
+        if (mediaAdded) {
+            OnlListSelection_UpdateDescription(mediaData[0], descriptionImage, descriptionTable);
+            listModel.addElement(mediaData[0]);
         }
-        System.out.println(itemName);
+    }
+    private static String[] GetDataFromFile() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+
+        System.out.println(chooser.getSelectedFile().getAbsolutePath());
+        return chooser.getSelectedFile() == null ?
+                null :
+                new String[] {
+                        chooser.getSelectedFile().getName(),
+                        "type place holder",
+                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
+                        chooser.getSelectedFile().getAbsolutePath().replaceAll("\\\\", "\\\\\\\\")
+        };
     }
 
-    private static String[] GetEditedData() {return new String[]{"hehe", "heho", "hehi", "hoho"};
-    /*todo: creat a Popup window that gets the updated data from the user .. */}
-    public static String[] GetListContent(){ return OutputPresenter.Try_FillList(); }
+    public static void OnClick_EditMedia(JList<String> list, DefaultListModel<String> listModel, JLabel descriptionImage, JTable descriptionTable){
+        String itemName = list.getSelectedValue();
+        String newItemName = Try_GetNewItemNameInput(listModel);
+
+        Try_EditMedia(itemName, newItemName);
+        listModel.setElementAt(newItemName, list.getSelectedIndex());
+
+        OnlListSelection_UpdateDescription(newItemName, descriptionImage, descriptionTable);
+    }
+    public static void OnClick_DeleteMedia(JList<String> list, DefaultListModel<String> listModel){
+        int response = DisplayConfirmation();
+        if (response == 0) {
+            Try_DeleteMedia(list.getSelectedValue());
+            listModel.removeElementAt(list.getSelectedIndex());
+        }
+    }
+
+    public static String[] GetListContent() {return OutputPresenter.Try_FillList(); };
     public static String GetCurrentUser(){ return OutputPresenter.GetCurrentUser(); }
 
     public static void SetupCloseButton(JButton closeButton){
@@ -142,10 +169,15 @@ public class OutputView {
         System.out.println(error);
         showMessageDialog(null, error, "Error", ERROR_MESSAGE);
     }
-    private static int DisplayConfirmation() {
+    public static int DisplayConfirmation() {
         return JOptionPane.showConfirmDialog(null, "You sure you wanna delete this ?",
                 "Confirmation", YES_NO_OPTION);
     }
+    public static String DisplayInputDialog() {
+        return showInputDialog(null, "Enter the new item name",
+                "Editing item", PLAIN_MESSAGE);
+    }
+
 
     public static class OnMouseClick_CloseApp extends MouseAdapter {
         public void mouseClicked(MouseEvent e) { System.exit(0); }

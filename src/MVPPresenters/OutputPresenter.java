@@ -10,25 +10,25 @@ public class OutputPresenter {
 
     public static void DisplayError(String error) { OutputView.DisplayError(error);}
 
-    public static String[] Try_GetItemDescription(String selectedValue) {
-            String[] ItemDescription = {"", "", "", ""};
+    public static String[] Try_GetMediaDescription(String selectedValue) {
+            String[] mediaDescription = {"", "", "", ""};
         try {
-            ItemDescription = GetItemDescription(selectedValue);
+            mediaDescription = GetMediaDescription(selectedValue);
         } catch (SQLException | ClassNotFoundException e) {
             DisplayError(e.getMessage());
         }
-        return ItemDescription;
+        return mediaDescription;
     }
-    public static void Try_EditItem(String itemName, String newItemName) {
+    public static void Try_EditMedia(String mediaName, String newMediaName) {
         try {
-            EditItem(itemName, newItemName);
+            EditMedia(mediaName, newMediaName);
         } catch (SQLException | ClassNotFoundException e) {
             DisplayError(e.getMessage());
         }
     }
-    public static void Try_DeleteItem(String itemName) {
+    public static void Try_DeleteMedia(String mediaName) {
         try {
-            DeleteItem(itemName);
+            DeleteMedia(mediaName);
         } catch (SQLException | ClassNotFoundException e) {
             DisplayError(e.getMessage());
         }
@@ -36,7 +36,7 @@ public class OutputPresenter {
     public static String[] Try_FillList() {
         String[] listData = new String[]{};
         try{
-            listData = GetListItems();
+            listData = GetMediaList();
         } catch (Exception e) {
             DisplayError(e.getMessage());
         }

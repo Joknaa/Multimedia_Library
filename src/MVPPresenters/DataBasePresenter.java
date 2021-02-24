@@ -68,19 +68,19 @@ public class DataBasePresenter {
     }
     private static void SignIn(String login) { UserPresenter.SetCurrentUser(login); }
 
-    public static String[] GetListItems() throws SQLException, ClassNotFoundException {
-        String[] listItems;
+    public static String[] GetMediaList() throws SQLException, ClassNotFoundException {
+        String[] mediaList;
         Connect();
-        listItems = SQL_GetListItems();
+        mediaList = SQL_GetMediaList();
         Disconnect();
-        return listItems;
+        return mediaList;
     }
-    private static String[] SQL_GetListItems() throws SQLException {
+    private static String[] SQL_GetMediaList() throws SQLException {
         String query = "SELECT Name FROM media;";
         ResultSet dataSet = Session.createStatement().executeQuery(query);
-        return ConvertListItemsToStringArray(dataSet);
+        return ConvertMediaListToStringArray(dataSet);
     }
-    private static String[] ConvertListItemsToStringArray(ResultSet DataSet) throws SQLException {
+    private static String[] ConvertMediaListToStringArray(ResultSet DataSet) throws SQLException {
         List<String> dataList = new ArrayList<String>();
         while (DataSet.next()) { dataList.add(DataSet.getString(1)); }
 
@@ -89,7 +89,7 @@ public class DataBasePresenter {
         return dataStringArray;
     }
 
-    public static String[] GetItemDescription(String itemName) throws SQLException, ClassNotFoundException {
+    public static String[] GetMediaDescription(String itemName) throws SQLException, ClassNotFoundException {
         Connect();
         String[] ItemDescription = SQL_GetItemDescription(itemName);
         Disconnect();
@@ -103,41 +103,54 @@ public class DataBasePresenter {
     private static String[] ConvertItemDescriptionToStringArray(ResultSet dataSet) throws SQLException {
         List<String> dataList = new ArrayList<String>();
         int i = 1;
-        dataSet.next();
-        int dataSetSize = dataSet.getMetaData().getColumnCount();
-        while (i <= dataSetSize) { dataList.add(dataSet.getString(i++)); }
+        if (dataSet.next()) {
+            int dataSetSize = dataSet.getMetaData().getColumnCount();
+            while (i <= dataSetSize) { dataList.add(dataSet.getString(i++)); }
 
-        String[] dataStringArray = new String[dataList.size()];
-        dataList.toArray(dataStringArray);
-        return dataStringArray;
+            String[] dataStringArray = new String[dataList.size()];
+            dataList.toArray(dataStringArray);
+            return dataStringArray;
+        }
+        return new String[4];
     }
 
-    public static void EditItem(String itemName, String newItemName) throws SQLException, ClassNotFoundException {
+    public static void AddMedia(String[] mediaData) throws SQLException, ClassNotFoundException {
         Connect();
-        int id = SQL_GetItemID(itemName);
-        SQL_EditItem(id, newItemName);
+        SQL_AddMedia(mediaData);
         Disconnect();
     }
+    private static void SQL_AddMedia(String[] mediaData) throws SQLException {
+        System.out.println(mediaData[3]);
+        String query = "INSERT INTO media(Name, Type, UploadDate, Location) " +
+                "VALUES ('" + mediaData[0] + "', '" + mediaData[1] + "'," +
+                "'" + mediaData[2] + "', '" + mediaData[3] + "');";
+        Session.createStatement().executeUpdate(query);
+    }
 
-    private static int SQL_GetItemID(String itemName) throws SQLException {
-        String query = "SELECT ID FROM media WHERE Name = '" + itemName + "';";
+    public static void EditMedia(String mediaName, String newMediaName) throws SQLException, ClassNotFoundException {
+        Connect();
+        int id = SQL_GetMediaID(mediaName);
+        SQL_EditMedia(id, newMediaName);
+        Disconnect();
+    }
+    private static int SQL_GetMediaID(String mediaName) throws SQLException {
+        String query = "SELECT ID FROM media WHERE Name = '" + mediaName + "';";
         ResultSet dataSet = Session.createStatement().executeQuery(query);
         dataSet.next();
         return dataSet.getInt(1);
     }
-
-    private static void SQL_EditItem(int itemID, String newItemName) throws SQLException {
-        String query = "UPDATE media SET Name='" + newItemName + "' WHERE ID='" + itemID +"';";
+    private static void SQL_EditMedia(int mediaID, String newMediaName) throws SQLException {
+        String query = "UPDATE media SET Name='" + newMediaName + "' WHERE ID='" + mediaID +"';";
         Session.createStatement().executeUpdate(query);
     }
 
-    public static void DeleteItem(String itemName) throws SQLException, ClassNotFoundException {
+    public static void DeleteMedia(String mediaName) throws SQLException, ClassNotFoundException {
         Connect();
-        SQL_DeleteItem(itemName);
+        SQL_DeleteMedia(mediaName);
         Disconnect();
     }
-    private static void SQL_DeleteItem(String itemName) throws SQLException {
-        String query = "DELETE FROM media WHERE Name='" + itemName + "';";
+    private static void SQL_DeleteMedia(String mediaName) throws SQLException {
+        String query = "DELETE FROM media WHERE Name='" + mediaName + "';";
         Session.createStatement().executeUpdate(query);
     }
 
