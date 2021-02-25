@@ -1,6 +1,7 @@
 package MVPPresenters;
 
 import MVPModels.DataBaseModel;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +11,16 @@ public class DataBasePresenter {
     private static final String url = DataBaseModel.GetUrl();
     private static final String login = DataBaseModel.GetLogin();
     private static final String password = DataBaseModel.GetPassword();
+    public static int CurrentID = 0;
     private static Connection Session = null;
 
-    public static void CheckDataBaseConnection(){
+    public static void SetupDataBaseConnection(){
         try {
             Connect();
             SQL_TestConnectivity();
             Disconnect();
         } catch (SQLException | ClassNotFoundException e) {
-            DisplayError("Ops !! You can't connect to the DataBase @Error\n");
+            DisplayError("Ops !! You can't connect to the DataBase\n");
             System.exit(1);
         }
     }
@@ -28,7 +30,7 @@ public class DataBasePresenter {
     }
     private static void SQL_TestConnectivity() throws SQLException {
         String query = "SELECT * FROM user;";
-        ResultSet dataSet = Session.createStatement().executeQuery(query);
+        Session.createStatement().executeQuery(query);
     }
     public static void Disconnect() throws SQLException {
         if (Session != null){
@@ -41,12 +43,13 @@ public class DataBasePresenter {
             Connect();
             SQL_Check_LoginAvailable(login);
             SQL_SignUp(login, password);
+            SignIn(login);
             Disconnect();
     }
     private static void SQL_Check_LoginAvailable(String login) throws SQLException, UserAlreadyExistException {
         String query = "SELECT * FROM user WHERE Username='" + login + "';";
         ResultSet rt = Session.createStatement().executeQuery(query);
-        if (rt.next()) throw new UserAlreadyExistException("login already exist @Error");
+        if (rt.next()) throw new UserAlreadyExistException("login already exist");
     }
     private static void SQL_SignUp(String login, String password) throws SQLException {
         String query = "INSERT INTO user(username, password) VALUES ('" + login + "', '" + password + "');";
@@ -63,10 +66,10 @@ public class DataBasePresenter {
         String query = "SELECT * FROM user WHERE Username='" + login + "' AND Password='" + password + "';";
         ResultSet rt = Session.createStatement().executeQuery(query);
         if (!rt.isBeforeFirst()){
-            throw new UserNotFoundException("Login or Password Incorrect @Error");
+            throw new UserNotFoundException("Login or Password Incorrect");
         }
     }
-    private static void SignIn(String login) { UserPresenter.SetCurrentUser(login); }
+    private static void SignIn(String login) { UserPresenter.Login(login); }
 
     public static String[] GetMediaList() throws SQLException, ClassNotFoundException {
         String[] mediaList;
@@ -120,7 +123,6 @@ public class DataBasePresenter {
         Disconnect();
     }
     private static void SQL_AddMedia(String[] mediaData) throws SQLException {
-        System.out.println(mediaData[3]);
         String query = "INSERT INTO media(Name, Type, UploadDate, Location) " +
                 "VALUES ('" + mediaData[0] + "', '" + mediaData[1] + "'," +
                 "'" + mediaData[2] + "', '" + mediaData[3] + "');";

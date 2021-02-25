@@ -33,17 +33,17 @@ public class SignupPanel extends JPanel implements IPanel, ActionListener {
     }
 
     private void SetupLogoPanel() {
-        logoPanel.setBackground(new Color(52, 66, 91));
+        logoPanel.setBackground(PICKLED_BLUEWOOD);
         SetupLogoPanelLayout(logoPanel, logoIconLabel, logoTextLabel);
         SetupLogoTextPanel();
     }
     private void SetupLogoTextPanel() {
-        logoTextLabel.setForeground(new Color(76, 96, 133));
+        logoTextLabel.setForeground(BLUE_BAYOUX);
         logoTextLabel.setFont(new Font("Source Code Pro", Font.PLAIN, 24));
     }
 
     private void SetupInputPanel() {
-        inputPanel.setBackground(new Color(76, 96, 133));
+        inputPanel.setBackground(BLUE_BAYOUX);
         SetupInputFields(loginField, passwordField, passwordRepeatField);
         SetupSeparators(loginSeparator, passwordSeparator, passwordRepeatSeparator);
         SetupSubmitButton(signUpButton, this, true,"Click to creat an account");
