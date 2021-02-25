@@ -30,17 +30,17 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
     }
 
     private void SetupLogoPanel() {
-        logoPanel.setBackground(new Color(52, 66, 91));
+        logoPanel.setBackground(PICKLED_BLUEWOOD);
         SetupLogoTextPanel();
         SetupLogoPanelLayout(logoPanel, LogoIconLabel, LogoTextLabel);
     }
     private void SetupLogoTextPanel() {
-        LogoTextLabel.setForeground(new Color(76, 96, 133));
+        LogoTextLabel.setForeground(BLUE_BAYOUX);
         LogoTextLabel.setFont(new Font("Source Code Pro", Font.PLAIN, 24));
     }
 
     private void SetupInputPanel() {
-        inputPanel.setBackground(new Color(76, 96, 133));
+        inputPanel.setBackground(BLUE_BAYOUX);
         SetupInputFields(loginField, passwordField);
         SetupSeparators(loginSeparator,passwordSeparator);
         SetupSubmitButton(signInButton, this, true, "Click to login");
@@ -50,13 +50,13 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
     }
     private void SetupSeparators(JSeparator... separators) {
         for (JSeparator separator : separators) {
-            separator.setBackground(new Color(190, 200, 218));
+            separator.setBackground(BLUE_HAZE);
         }
     }
     private void SetupInputFields(JTextField... inputFields) {
         for (JTextField inputField : inputFields) {
-            inputField.setBackground(new Color(76, 96, 133));
-            inputField.setForeground(new Color(190, 200, 218));
+            inputField.setBackground(BLUE_BAYOUX);
+            inputField.setForeground(BLUE_HAZE);
             inputField.setBorder(null);
         }
     }

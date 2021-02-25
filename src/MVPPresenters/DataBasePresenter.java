@@ -99,7 +99,7 @@ public class DataBasePresenter {
         return ItemDescription;
     }
     private static String[] SQL_GetItemDescription(String itemName) throws SQLException {
-        String query = "SELECT Type, UploadDate, Location FROM media WHERE Name='" + itemName + "';";
+        String query = "SELECT AddedBy, UploadDate, Location FROM media WHERE Name='" + itemName + "';";
         ResultSet dataSet = Session.createStatement().executeQuery(query);
         return ConvertItemDescriptionToStringArray(dataSet);
     }
@@ -123,7 +123,7 @@ public class DataBasePresenter {
         Disconnect();
     }
     private static void SQL_AddMedia(String[] mediaData) throws SQLException {
-        String query = "INSERT INTO media(Name, Type, UploadDate, Location) " +
+        String query = "INSERT INTO media(Name, AddedBy, UploadDate, Location) " +
                 "VALUES ('" + mediaData[0] + "', '" + mediaData[1] + "'," +
                 "'" + mediaData[2] + "', '" + mediaData[3] + "');";
         Session.createStatement().executeUpdate(query);

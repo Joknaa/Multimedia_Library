@@ -183,7 +183,7 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
         scrollPanList.setEnabled(false);
         scrollPanList.setFocusable(false);
         scrollPanList.setRequestFocusEnabled(false);
-        scrollPanList.getVerticalScrollBar().setBackground(new Color(76,96,133));
+        scrollPanList.getVerticalScrollBar().setBackground(BLUE_BAYOUX);
         scrollPanList.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
