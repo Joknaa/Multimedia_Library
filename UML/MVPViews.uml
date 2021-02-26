@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>MVPViews</OriginalElement>
+  <nodes>
+    <node x="55.0" y="206.5">MVPViews.OutputView</node>
+    <node x="544.0" y="65.0">MVPViews.UI</node>
+    <node x="169.5" y="933.0">MVPViews.OutputView.OnMouseClick_CloseApp</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="MVPViews.OutputView.OnMouseClick_CloseApp" target="MVPViews.OutputView">
+      <point x="0.0" y="-27.0" />
+      <point x="0.0" y="313.5" />
+    </edge>
+    <edge source="MVPViews.OutputView" target="MVPViews.OutputView">
+      <point x="-40.0" y="313.5" />
+      <point x="240.0" y="880.0" />
+      <point x="0.0" y="880.0" />
+      <point x="0.0" y="520.0" />
+      <point x="-225.0" y="0.0" />
+    </edge>
+    <edge source="MVPViews.UI" target="MVPViews.UI">
+      <point x="0.0" y="-15.0" />
+      <point x="600.0" y="0.0" />
+      <point x="720.0" y="0.0" />
+      <point x="720.0" y="70.0" />
+      <point x="56.0" y="-10.0" />
+    </edge>
+    <edge source="MVPViews.UI" target="MVPViews.OutputView">
+      <point x="-56.0" y="10.0" />
+      <point x="280.0" y="90.0" />
+      <point x="0.0" y="-313.5" />
+    </edge>
+    <edge source="MVPViews.OutputView" target="MVPViews.OutputView.OnMouseClick_CloseApp">
+      <point x="225.0" y="40.0" />
+      <point x="560.0" y="560.0" />
+      <point x="560.0" y="960.0" />
+      <point x="110.5" y="0.0" />
+    </edge>
+    <edge source="MVPViews.OutputView" target="MVPViews.UI">
+      <point x="225.0" y="0.0" />
+      <point x="760.0" y="520.0" />
+      <point x="760.0" y="80.0" />
+      <point x="56.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Orthogonal" zoom="0.5620655412115194" x="380.0" y="493.49999999999994" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

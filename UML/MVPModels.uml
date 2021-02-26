@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>MVPModels</OriginalElement>
+  <nodes>
+    <node x="0.0" y="15.0">MVPModels.DataBaseModel</node>
+    <node x="248.0" y="15.0">MVPModels.UserModel</node>
+    <node x="0.0" y="291.0">MVPModels.LogStatus</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="MVPModels.UserModel" target="MVPModels.UserModel">
+      <point x="45.5" y="-82.5" />
+      <point x="384.5" y="0.0" />
+      <point x="445.0" y="0.0" />
+      <point x="445.0" y="56.25" />
+      <point x="91.0" y="-41.25" />
+    </edge>
+    <edge source="MVPModels.DataBaseModel" target="MVPModels.DataBaseModel">
+      <point x="45.5" y="-115.5" />
+      <point x="136.5" y="0.0" />
+      <point x="197.0" y="0.0" />
+      <point x="197.0" y="72.75" />
+      <point x="91.0" y="-57.75" />
+    </edge>
+  </edges>
+  <settings layout="Balloon" zoom="1.0" x="204.5" y="198.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

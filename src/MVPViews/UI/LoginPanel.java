@@ -12,9 +12,9 @@ public class LoginPanel extends JPanel implements IPanel, ActionListener {
     private final JPanel inputPanel = new JPanel();
     private final JSeparator loginSeparator = new JSeparator();
     private final JSeparator passwordSeparator = new JSeparator();
-    private final JLabel LogoIconLabel = new JLabel(new ImageIcon("Resources/LoginScreen/library_120px.png"));
-    private final JLabel passwordLabel = new JLabel(new ImageIcon("Resources/LoginScreen/lock_30px.png"));
-    private final JLabel loginLabel = new JLabel(new ImageIcon("Resources/LoginScreen/user_30px.png"));
+    private final JLabel LogoIconLabel = new JLabel(new ImageIcon("Resources/library_120px.png"));
+    private final JLabel passwordLabel = new JLabel(new ImageIcon("Resources/lock_30px.png"));
+    private final JLabel loginLabel = new JLabel(new ImageIcon("Resources/user_30px.png"));
     private final JLabel LogoTextLabel = new JLabel("Multimedia Library");
     private final JButton signInButton = new JButton("Sign In");
     private final JButton signUpButton = new JButton("Sign Up");

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="385.70359597543734" y="346.5615088961483">MVPViews</node>
+    <node x="387.7548525157308" y="15.0">MVPModels</node>
+    <node x="202.92104089761256" y="180.5372248867702">MVPPresenters</node>
+    <node x="0.0" y="168.5372248867702">Main</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="MVPPresenters" target="MVPViews">
+      <point x="3.570217464020544" y="-3.500506714691853" />
+      <point x="3.5702174640205158" y="-3.500506714691852" />
+    </edge>
+    <edge source="MVPPresenters" target="MVPModels">
+      <point x="-3.500506714691852" y="-3.5702174640205393" />
+      <point x="-3.5005067146918805" y="-3.570217464020544" />
+    </edge>
+    <edge source="MVPViews" target="MVPViews">
+      <point x="42.5" y="-15.0" />
+      <point x="508.20359597543734" y="331.5615088961483" />
+      <point x="560.7035959754373" y="331.5615088961483" />
+      <point x="560.7035959754373" y="351.5615088961483" />
+      <point x="80.0" y="-10.0" />
+    </edge>
+    <edge source="MVPPresenters" target="MVPPresenters">
+      <point x="-52.5" y="-15.0" />
+      <point x="250.42104089761256" y="165.5372248867702" />
+      <point x="187.92104089761256" y="165.5372248867702" />
+      <point x="187.92104089761256" y="185.5372248867702" />
+      <point x="-100.0" y="-10.0" />
+    </edge>
+    <edge source="MVPModels" target="MVPModels">
+      <point x="42.0" y="-15.0" />
+      <point x="513.7548525157308" y="0.0" />
+      <point x="570.7548525157308" y="0.0" />
+      <point x="570.7548525157308" y="22.5" />
+      <point x="84.0" y="-7.5" />
+    </edge>
+    <edge source="MVPViews" target="MVPPresenters">
+      <point x="-7.002374575762246" y="0.0" />
+      <point x="-7.002374575762332" y="-0.0" />
+    </edge>
+    <edge source="Main" target="MVPPresenters">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Balloon" zoom="0.6449081803005009" x="492.2190812720848" y="279.5" />
+  <SelectedNodes>
+    <node>Main</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

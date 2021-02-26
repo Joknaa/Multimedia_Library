@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>MVPPresenters</OriginalElement>
+  <nodes>
+    <node x="969.4055968541263" y="0.0">MVPPresenters.UserPresenter</node>
+    <node x="435.9166666666665" y="1506.0">MVPPresenters.InputPresenter.EmptyInputFieldException</node>
+    <node x="354.6666666666665" y="1172.0">MVPPresenters.InputPresenter</node>
+    <node x="531.5" y="237.0">MVPPresenters.DataBasePresenter.UserNotFoundException</node>
+    <node x="593.2746444731738" y="722.5">MVPPresenters.InputPresenter.InputTooShortException</node>
+    <node x="1161.4413111398405" y="1282.0">MVPPresenters.MainPresenter</node>
+    <node x="1158.8333333333335" y="181.0">MVPPresenters.OutputPresenter</node>
+    <node x="0.0" y="722.5">MVPPresenters.InputPresenter.MediaNameAlreadyExistException</node>
+    <node x="309.0" y="722.5">MVPPresenters.InputPresenter.PasswordMismatchException</node>
+    <node x="792.9166666666667" y="237.0">MVPPresenters.DataBasePresenter.UserAlreadyExistException</node>
+    <node x="857.2746444731738" y="413.0">MVPPresenters.DataBasePresenter</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.InputPresenter.InputTooShortException">
+      <point x="74.30769230769238" y="-137.0" />
+      <point x="589.9743589743589" y="1122.0" />
+      <point x="630.6079778065072" y="1122.0" />
+      <point x="-74.66666666666663" y="15.0" />
+    </edge>
+    <edge source="MVPPresenters.MainPresenter" target="MVPPresenters.OutputPresenter">
+      <point x="38.0" y="-27.0" />
+      <point x="1275.4413111398405" y="393.0" />
+      <point x="1386.3333333333335" y="393.0" />
+      <point x="97.5" y="71.0" />
+    </edge>
+    <edge source="MVPPresenters.OutputPresenter" target="MVPPresenters.DataBasePresenter">
+      <point x="32.5" y="71.0" />
+      <point x="1321.3333333333335" y="383.0" />
+      <point x="1176.7032159017454" y="383.0" />
+      <point x="147.4285714285715" y="-324.5" />
+    </edge>
+    <edge source="MVPPresenters.DataBasePresenter" target="MVPPresenters.DataBasePresenter">
+      <point x="-114.66666666666669" y="324.5" />
+      <point x="914.607977806507" y="1082.0" />
+      <point x="837.2746444731738" y="1082.0" />
+      <point x="837.2746444731738" y="737.5" />
+      <point x="-172.0" y="-0.0" />
+    </edge>
+    <edge source="MVPPresenters.OutputPresenter" target="MVPPresenters.OutputPresenter">
+      <point x="-97.5" y="71.0" />
+      <point x="1191.3333333333335" y="343.0" />
+      <point x="1138.8333333333335" y="343.0" />
+      <point x="1138.8333333333335" y="252.0" />
+      <point x="-130.0" y="-0.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter.MediaNameAlreadyExistException" target="MVPPresenters.InputPresenter">
+      <point x="96.0" y="15.0" />
+      <point x="240.0" y="1132.0" />
+      <point x="416.58974358974353" y="1132.0" />
+      <point x="-99.07692307692298" y="-137.0" />
+    </edge>
+    <edge source="MVPPresenters.MainPresenter" target="MVPPresenters.DataBasePresenter">
+      <point x="-38.0" y="-27.0" />
+      <point x="1199.4413111398405" y="1152.0" />
+      <point x="1143.9413111398405" y="1152.0" />
+      <point x="114.66666666666669" y="324.5" />
+    </edge>
+    <edge source="MVPPresenters.DataBasePresenter" target="MVPPresenters.DataBasePresenter.UserNotFoundException">
+      <point x="-147.4285714285714" y="-324.5" />
+      <point x="881.8460730446025" y="383.0" />
+      <point x="639.5" y="383.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="MVPPresenters.UserPresenter" target="MVPPresenters.UserPresenter">
+      <point x="-71.625" y="60.5" />
+      <point x="993.2805968541263" y="141.0" />
+      <point x="949.4055968541263" y="141.0" />
+      <point x="949.4055968541263" y="60.5" />
+      <point x="-95.5" y="-0.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.DataBasePresenter.UserNotFoundException">
+      <point x="24.76923076923083" y="-137.0" />
+      <point x="540.4358974358973" y="1142.0" />
+      <point x="567.5" y="1142.0" />
+      <point x="-72.0" y="15.0" />
+    </edge>
+    <edge source="MVPPresenters.DataBasePresenter" target="MVPPresenters.OutputPresenter">
+      <point x="98.28571428571439" y="-324.5" />
+      <point x="1127.5603587588882" y="373.0" />
+      <point x="1256.3333333333335" y="373.0" />
+      <point x="-32.5" y="71.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.UserPresenter">
+      <point x="-74.30769230769226" y="-137.0" />
+      <point x="441.35897435897425" y="1122.0" />
+      <point x="298.5" y="1122.0" />
+      <point x="298.5" y="161.0" />
+      <point x="1041.0305968541263" y="161.0" />
+      <point x="-23.875" y="60.5" />
+    </edge>
+    <edge source="MVPPresenters.DataBasePresenter.UserNotFoundException" target="MVPPresenters.DataBasePresenter">
+      <point x="72.0" y="15.0" />
+      <point x="711.5" y="373.0" />
+      <point x="930.9889301874596" y="373.0" />
+      <point x="-98.28571428571422" y="-324.5" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.InputPresenter.EmptyInputFieldException">
+      <point x="40.25" y="137.0" />
+      <point x="0.0" y="-15.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.DataBasePresenter.UserAlreadyExistException">
+      <point x="49.53846153846166" y="-137.0" />
+      <point x="565.2051282051282" y="1152.0" />
+      <point x="582.7746444731738" y="1152.0" />
+      <point x="582.7746444731738" y="393.0" />
+      <point x="834.25" y="393.0" />
+      <point x="-82.66666666666669" y="15.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter.PasswordMismatchException" target="MVPPresenters.InputPresenter">
+      <point x="82.66666666666663" y="15.0" />
+      <point x="1.1368683772161603E-13" y="-137.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.InputPresenter.MediaNameAlreadyExistException">
+      <point x="-148.61538461538453" y="-137.0" />
+      <point x="367.051282051282" y="1152.0" />
+      <point x="48.0" y="1152.0" />
+      <point x="-96.0" y="15.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter.EmptyInputFieldException" target="MVPPresenters.InputPresenter">
+      <point x="-80.0" y="-15.0" />
+      <point x="-40.25" y="137.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.InputPresenter.PasswordMismatchException">
+      <point x="-49.53846153846143" y="-137.0" />
+      <point x="466.1282051282051" y="1112.0" />
+      <point x="350.33333333333337" y="1112.0" />
+      <point x="-82.66666666666663" y="15.0" />
+    </edge>
+    <edge source="MVPPresenters.DataBasePresenter.UserAlreadyExistException" target="MVPPresenters.DataBasePresenter">
+      <point x="82.66666666666663" y="15.0" />
+      <point x="999.5833333333334" y="393.0" />
+      <point x="1029.2746444731738" y="393.0" />
+      <point x="5.6843418860808015E-14" y="-324.5" />
+    </edge>
+    <edge source="MVPPresenters.OutputPresenter" target="MVPPresenters.UserPresenter">
+      <point x="0.0" y="-71.0" />
+      <point x="1288.8333333333335" y="161.0" />
+      <point x="1136.5305968541263" y="161.0" />
+      <point x="71.625" y="60.5" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter.InputTooShortException" target="MVPPresenters.InputPresenter">
+      <point x="74.66666666666674" y="15.0" />
+      <point x="779.9413111398405" y="1142.0" />
+      <point x="639.5128205128204" y="1142.0" />
+      <point x="123.84615384615392" y="-137.0" />
+    </edge>
+    <edge source="MVPPresenters.DataBasePresenter" target="MVPPresenters.DataBasePresenter.UserAlreadyExistException">
+      <point x="-49.14285714285705" y="-324.5" />
+      <point x="980.1317873303167" y="363.0" />
+      <point x="916.9166666666667" y="363.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="MVPPresenters.DataBasePresenter" target="MVPPresenters.UserPresenter">
+      <point x="49.142857142857224" y="-324.5" />
+      <point x="1078.4175016160311" y="393.0" />
+      <point x="1051.4166666666667" y="393.0" />
+      <point x="1051.4166666666667" y="161.0" />
+      <point x="1088.7805968541263" y="161.0" />
+      <point x="23.875" y="60.5" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.InputPresenter">
+      <point x="-120.75" y="137.0" />
+      <point x="394.9166666666665" y="1466.0" />
+      <point x="334.6666666666665" y="1466.0" />
+      <point x="334.6666666666665" y="1309.0" />
+      <point x="-161.0" y="-0.0" />
+    </edge>
+    <edge source="MVPPresenters.InputPresenter" target="MVPPresenters.DataBasePresenter">
+      <point x="148.61538461538464" y="-137.0" />
+      <point x="664.2820512820512" y="1152.0" />
+      <point x="1029.2746444731738" y="1152.0" />
+      <point x="0.0" y="324.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.3409638554216867" x="1098.0" y="810.0000000000001" />
+  <SelectedNodes>
+    <node>MVPPresenters.InputPresenter</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

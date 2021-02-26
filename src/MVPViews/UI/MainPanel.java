@@ -18,7 +18,7 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
     private final JPanel listPanel = new JPanel();
     private final JPanel buttonsPanel = new JPanel();
     private final JList<String> list = new JList<>();
-    private final JLabel logoLabel = new JLabel(new ImageIcon("Resources/LoginScreen/library_100px.png"));
+    private final JLabel logoLabel = new JLabel(new ImageIcon("Resources/library_100px.png"));
     private final JLabel greetingLabel = new JLabel("Greeting !");
     private final JScrollPane scrollPanList = new JScrollPane();
     private final JTable descriptionTable = new JTable();

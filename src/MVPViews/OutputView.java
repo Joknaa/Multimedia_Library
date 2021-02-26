@@ -7,11 +7,9 @@ import static MVPPresenters.InputPresenter.*;
 import MVPPresenters.OutputPresenter;
 import MVPPresenters.UserPresenter;
 import MVPViews.UI.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 
 public class OutputView {
     private static final AppFrame appFrame = new AppFrame();
