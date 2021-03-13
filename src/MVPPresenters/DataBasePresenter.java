@@ -147,20 +147,25 @@ public class DataBasePresenter {
         Disconnect();
     }
     private static void SQL_AddMedia(String[] mediaData) throws SQLException {
-        String query = "INSERT INTO media(Name, AddedBy, UploadDate, Location) " +
-                "VALUES ('" + mediaData[0] + "', '" + mediaData[1] + "'," +
-                "'" + mediaData[2] + "', '" + mediaData[3] + "');";
-        Session.createStatement().executeUpdate(query);
+        Session.createStatement().executeUpdate(
+                "INSERT INTO media(Name, AddedBy, UploadDate, Location) VALUES ('" + mediaData[0] + "', '" +
+                        mediaData[1] + "', '" + mediaData[2] + "', '" + mediaData[3] + "');"
+        );
     }
 
-    public static void EditMedia(String mediaName, String newMediaName) throws SQLException, ClassNotFoundException, IOException {
+    public static String EditMedia(String oldName, String newName)
+            throws SQLException, ClassNotFoundException, IOException, RenamedFileException {
         Connect();
-        int id = SQL_GetMediaID(mediaName);
-        SQL_EditMedia(id, newMediaName);
-        Desktop myDesktop = Desktop.getDesktop();
-        //todo: Find out a way to rename the selected media ..
-        myDesktop.edit(new File(SQL_GetMediaPath(newMediaName)));
+        int mediaID = SQL_GetMediaID(oldName);
+        String fileExtension = oldName.substring(oldName.lastIndexOf('.'));
+        newName = newName.concat(fileExtension);
+        String oldPath = SQL_GetMediaPath(oldName);
+        String newPath = oldPath.replace(oldName, newName).replaceAll("\\\\","\\\\\\\\");
+        SQL_EditMedia(mediaID, newName, newPath);
+        if (!MediaRenamed(oldPath, newPath))
+            throw new RenamedFileException("An error occurred while renaming the selected file");
         Disconnect();
+        return newName;
     }
     private static int SQL_GetMediaID(String mediaName) throws SQLException {
         String query = "SELECT ID FROM media WHERE Name = '" + mediaName + "';";
@@ -168,9 +173,14 @@ public class DataBasePresenter {
         dataSet.next();
         return dataSet.getInt(1);
     }
-    private static void SQL_EditMedia(int mediaID, String newMediaName) throws SQLException {
-        String query = "UPDATE media SET Name='" + newMediaName + "' WHERE ID='" + mediaID +"';";
-        Session.createStatement().executeUpdate(query);
+    private static void SQL_EditMedia(int mediaID, String newMediaName, String newMediaPath) throws SQLException {
+        Session.createStatement().executeUpdate(
+                "UPDATE media SET Name ='" + newMediaName + "', Location ='" + newMediaPath + "' WHERE ID='" + mediaID +"';"
+        );
+    }
+    private static boolean MediaRenamed(String oldMediaPath, String newMediaPath) {
+        File selectedFile = new File(oldMediaPath);
+        return selectedFile.renameTo(new File(newMediaPath));
     }
 
     public static void DeleteMedia(String mediaName) throws SQLException, ClassNotFoundException {
@@ -186,4 +196,5 @@ public class DataBasePresenter {
 
     public static class UserNotFoundException extends Exception { UserNotFoundException(String s){ super(s);}}
     public static class UserAlreadyExistException extends Exception { UserAlreadyExistException(String s){ super(s);}}
+    public static class RenamedFileException extends Exception { RenamedFileException(String s){ super(s);}}
 }

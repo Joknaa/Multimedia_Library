@@ -85,10 +85,9 @@ public class InputPresenter {
     public static String Try_EditMedia(String selectedMediaName, String[] listContent) {
         String newMediaName = "";
         try {
-            newMediaName = GetNewMediaNameInput(listContent);
-            EditMedia(selectedMediaName, newMediaName);
-        } catch (SQLException | ClassNotFoundException | EmptyInputFieldException | MediaNameAlreadyExistException |
-                IOException e) {
+            newMediaName = EditMedia(selectedMediaName, GetNewMediaNameInput(listContent));
+        } catch (SQLException | ClassNotFoundException | EmptyInputFieldException |
+                MediaNameAlreadyExistException | IOException | RenamedFileException e) {
             DisplayError(e.getMessage());
         }
         return newMediaName;
