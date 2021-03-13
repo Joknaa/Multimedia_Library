@@ -27,6 +27,7 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
     private final JButton addButton = new JButton("Add");
     private final JButton editButton = new JButton("Edit");
     private final JButton deleteButton = new JButton("Delete");
+    private final JButton runButton = new JButton("Run");
     private final JButton logOutButton = new JButton("Logout");
     private final DefaultListModel<String> defaultListModel = new DefaultListModel<>();
     //</editor-fold>
@@ -233,8 +234,9 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
     private void SetupButtonsPanel() {
         buttonsPanel.setBackground(BLUE_BAYOUX);
         SetupSubmitButton(addButton, this, true, "Add an item to the list");
-        SetupSubmitButton(editButton, this, false, "Edit an item in the list");
-        SetupSubmitButton(deleteButton, this, false, "Delete an item from the list");
+        SetupSubmitButton(editButton, this, false, "Edit selected item");
+        SetupSubmitButton(deleteButton, this, false, "Delete selected item");
+        SetupSubmitButton(runButton, this, false, "Run selected item");
         SetupButtonsPanelLayout();
     }
     private void SetupButtonsPanelLayout() {
@@ -242,19 +244,24 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
         buttonsPanel.setLayout(buttonsPanelLayout);
         buttonsPanelLayout.setHorizontalGroup(
                 buttonsPanelLayout.createParallelGroup(Alignment.LEADING)
-                        .addGroup(Alignment.TRAILING, buttonsPanelLayout.createSequentialGroup()
+                        .addGroup(Alignment.CENTER, buttonsPanelLayout.createSequentialGroup()
                                 .addContainerGap(36, Short.MAX_VALUE)
                                 .addComponent(addButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(editButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(deleteButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE)
-                                .addGap(44, 44, 44))
+                                .addGap(36, 36, 36))
+                        .addGroup(Alignment.CENTER, buttonsPanelLayout.createSequentialGroup()
+                                .addComponent(runButton, PREFERRED_SIZE, DEFAULT_SIZE, PREFERRED_SIZE))
         );
         buttonsPanelLayout.setVerticalGroup(
                 buttonsPanelLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(Alignment.TRAILING, buttonsPanelLayout.createSequentialGroup()
-                                .addContainerGap(DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(buttonsPanelLayout.createParallelGroup(Alignment.CENTER)
+                                        .addComponent(runButton, PREFERRED_SIZE, 23, PREFERRED_SIZE)
+                                        .addGap(10, 10, 10))
+                                .addGap(10, 10, 10)
                                 .addGroup(buttonsPanelLayout.createParallelGroup(Alignment.BASELINE)
                                         .addComponent(editButton, PREFERRED_SIZE, 23, PREFERRED_SIZE)
                                         .addComponent(addButton, PREFERRED_SIZE, 23, PREFERRED_SIZE)
@@ -316,10 +323,14 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
     private void ListSelectionChanged(ListSelectionEvent evt) {
         String selectedValue = list.getSelectedValue();
         if (!evt.getValueIsAdjusting()) {
-            editButton.setEnabled(true);
-            deleteButton.setEnabled(true);
+            EnableButtons(runButton, editButton, deleteButton);
             OnListSelection_UpdateDescription(selectedValue, descriptionTable);
-        } }
+        }
+    }
+
+    private void EnableButtons(JButton... buttons){
+        for (JButton button : buttons) { button.setEnabled(true);}
+    }
 
     @Override
     public JPanel GetPanel() { return this; }
@@ -331,6 +342,8 @@ public class MainPanel extends JPanel implements IPanel, ActionListener {
     public void actionPerformed(ActionEvent event) {
         if (event.getSource().equals(logOutButton))
             OnClick_Logout();
+        else if (event.getSource().equals(runButton))
+            OnClick_RunMedia(list, defaultListModel, deleteButton);
         else if (event.getSource().equals(addButton))
             OnClick_AddMedia(defaultListModel, descriptionTable);
         else if (event.getSource().equals(editButton))

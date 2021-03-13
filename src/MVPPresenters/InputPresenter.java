@@ -1,12 +1,11 @@
 package MVPPresenters;
 
 import MVPViews.UI.MainPanel;
-
 import static MVPViews.OutputView.*;
 import static MVPPresenters.DataBasePresenter.*;
-import static javax.swing.JOptionPane.PLAIN_MESSAGE;
-import static javax.swing.JOptionPane.showInputDialog;
+import static javax.swing.JOptionPane.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +47,13 @@ public class InputPresenter {
         }
     }
 
+    public static void Try_RunMedia(String mediaName) {
+        try {
+            RunMedia(mediaName);
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            DisplayError(e.getMessage());
+        }
+    }
     public static String[] Try_AddMedia(DefaultListModel<String> listModel) {
         String[] mediaData = new String[]{};
         try {
@@ -81,7 +87,8 @@ public class InputPresenter {
         try {
             newMediaName = GetNewMediaNameInput(listContent);
             EditMedia(selectedMediaName, newMediaName);
-        } catch (SQLException | ClassNotFoundException | EmptyInputFieldException | MediaNameAlreadyExistException e) {
+        } catch (SQLException | ClassNotFoundException | EmptyInputFieldException | MediaNameAlreadyExistException |
+                IOException e) {
             DisplayError(e.getMessage());
         }
         return newMediaName;
@@ -96,7 +103,7 @@ public class InputPresenter {
 
     public static String GetNewMediaNameInput(String[] listContent)
             throws EmptyInputFieldException, MediaNameAlreadyExistException {
-        String newMediaName = GetNewItemNameInput();
+        String newMediaName = DisplayInputDialog();
 
         if (newMediaName == null || newMediaName.trim().isEmpty())
             throw new EmptyInputFieldException("Invalid name !");
@@ -108,9 +115,6 @@ public class InputPresenter {
         return newMediaName;
     }
 
-    private static String GetNewItemNameInput() {
-        return DisplayInputDialog();
-    }
     public static String DisplayInputDialog() {
         return showInputDialog(null, "Enter the new item name",
                 "Editing item", PLAIN_MESSAGE);

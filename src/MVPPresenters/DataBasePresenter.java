@@ -2,6 +2,9 @@ package MVPPresenters;
 
 import MVPModels.DataBaseModel;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +14,9 @@ public class DataBasePresenter {
     private static final String url = DataBaseModel.GetUrl();
     private static final String login = DataBaseModel.GetLogin();
     private static final String password = DataBaseModel.GetPassword();
-    public static int CurrentID = 0;
     private static Connection Session = null;
 
+    //<editor-fold desc="Setting Up Connection">
     public static void SetupDataBaseConnection(){
         try {
             Connect();
@@ -38,12 +41,14 @@ public class DataBasePresenter {
             Session = null;
         }
     }
+    //</editor-fold>
 
+    //<editor-fold desc="SignUp">
     public static void SignUp(String login, String password) throws SQLException, ClassNotFoundException, UserAlreadyExistException {
             Connect();
             SQL_Check_LoginAvailable(login);
             SQL_SignUp(login, password);
-            SignIn(login);
+            SignInLocaly(login);
             Disconnect();
     }
     private static void SQL_Check_LoginAvailable(String login) throws SQLException, UserAlreadyExistException {
@@ -55,11 +60,12 @@ public class DataBasePresenter {
         String query = "INSERT INTO user(username, password) VALUES ('" + login + "', '" + password + "');";
         Session.createStatement().executeUpdate(query);
     }
-
+    //</editor-fold>
+    //<editor-fold desc="SignIn">
     public static void SignIn(String login, String password) throws SQLException, ClassNotFoundException, UserNotFoundException {
             Connect();
             SQL_Check_UserExist(login, password);
-            SignIn(login);
+            SignInLocaly(login);
             Disconnect();
     }
     private static void SQL_Check_UserExist(String login, String password) throws SQLException, UserNotFoundException {
@@ -69,8 +75,10 @@ public class DataBasePresenter {
             throw new UserNotFoundException("Login or Password Incorrect");
         }
     }
-    private static void SignIn(String login) { UserPresenter.Login(login); }
+    private static void SignInLocaly(String login) { UserPresenter.SignIn(login); }
+    //</editor-fold>
 
+    //<editor-fold desc="Get Media List">
     public static String[] GetMediaList() throws SQLException, ClassNotFoundException {
         String[] mediaList;
         Connect();
@@ -91,7 +99,8 @@ public class DataBasePresenter {
         dataList.toArray(dataStringArray);
         return dataStringArray;
     }
-
+    //</editor-fold>
+    //<editor-fold desc="Get Media Description">
     public static String[] GetMediaDescription(String itemName) throws SQLException, ClassNotFoundException {
         Connect();
         String[] ItemDescription = SQL_GetItemDescription(itemName);
@@ -116,6 +125,21 @@ public class DataBasePresenter {
         }
         return new String[4];
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Add/Edit/Delete Media">
+    public static void RunMedia(String mediaName) throws SQLException, ClassNotFoundException, IOException {
+        Connect();
+        Desktop myDesktop = Desktop.getDesktop();
+        myDesktop.open(new File(SQL_GetMediaPath(mediaName)));
+        Disconnect();
+    }
+    private static String SQL_GetMediaPath(String mediaName) throws SQLException {
+        String query = "SELECT location FROM media where Name = '" + mediaName + "';";
+        ResultSet dataset = Session.createStatement().executeQuery(query);
+        dataset.next();
+        return dataset.getString(1);
+    }
 
     public static void AddMedia(String[] mediaData) throws SQLException, ClassNotFoundException {
         Connect();
@@ -129,10 +153,13 @@ public class DataBasePresenter {
         Session.createStatement().executeUpdate(query);
     }
 
-    public static void EditMedia(String mediaName, String newMediaName) throws SQLException, ClassNotFoundException {
+    public static void EditMedia(String mediaName, String newMediaName) throws SQLException, ClassNotFoundException, IOException {
         Connect();
         int id = SQL_GetMediaID(mediaName);
         SQL_EditMedia(id, newMediaName);
+        Desktop myDesktop = Desktop.getDesktop();
+        //todo: Find out a way to rename the selected media ..
+        myDesktop.edit(new File(SQL_GetMediaPath(newMediaName)));
         Disconnect();
     }
     private static int SQL_GetMediaID(String mediaName) throws SQLException {
@@ -155,6 +182,7 @@ public class DataBasePresenter {
         String query = "DELETE FROM media WHERE Name='" + mediaName + "';";
         Session.createStatement().executeUpdate(query);
     }
+    //</editor-fold>
 
     public static class UserNotFoundException extends Exception { UserNotFoundException(String s){ super(s);}}
     public static class UserAlreadyExistException extends Exception { UserAlreadyExistException(String s){ super(s);}}

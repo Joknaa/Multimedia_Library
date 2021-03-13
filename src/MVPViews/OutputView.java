@@ -25,6 +25,7 @@ public class OutputView {
         appFrame.SetCurrentPanel(new LoginPanel());
     }
 
+    //<editor-fold desc="On-Events Actions">
     public static void OnClick_Logout(){
         UserPresenter.LogOut();
         OnClick_SwapPanels(loginPanel);
@@ -42,7 +43,8 @@ public class OutputView {
     }
     public static void OnClick_SwapPanels(IPanel gotoPanel){
         appFrame.GetCurrentPanel().setVisible(false);
-        appFrame.SetCurrentPanel(gotoPanel);}
+        appFrame.SetCurrentPanel(gotoPanel);
+    }
     public static void OnListSelection_UpdateDescription(String selectedValue, JTable descriptionTable) {
         String[] ItemDescription = Try_GetMediaDescription(selectedValue);
 
@@ -51,6 +53,9 @@ public class OutputView {
         descriptionTable.setValueAt(ItemDescription[0], 1, 1);
         descriptionTable.setValueAt(ItemDescription[1], 2, 1);
         descriptionTable.setValueAt(ItemDescription[2], 3, 1);
+    }
+    public static void OnClick_RunMedia(JList<String> list, DefaultListModel<String> listModel, JButton deleteButton){
+        Try_RunMedia(list.getSelectedValue());
     }
     public static void OnClick_AddMedia(DefaultListModel<String> listModel, JTable descriptionTable){
         String[] mediaData = Try_AddMedia(listModel);
@@ -73,6 +78,7 @@ public class OutputView {
             deleteButton.setEnabled(false);
         }
     }
+    //</editor-fold>
 
     private static String[] ConvertListContentToStringArray(DefaultListModel<String> listModel) {
         String[] listContent = new String[listModel.getSize()];
@@ -84,6 +90,7 @@ public class OutputView {
     public static String[] GetListContent() {return Try_FillList(); };
     public static String GetCurrentUser(){ return OutputPresenter.GetCurrentUser(); }
 
+    //<editor-fold desc="Setup Comment Components">
     public static void SetupCloseButton(JButton closeButton){
         closeButton.setBackground(BLUE_BAYOUX);
         closeButton.setFont(new java.awt.Font("Source Code Pro", Font.PLAIN, 24));
@@ -153,6 +160,7 @@ public class OutputView {
                                 .addGap(193, 193, 193))
         );
     }
+    //</editor-fold>
 
     public static void DisplayInformation(String greeting) {
         showMessageDialog(null, greeting, "Greeting", INFORMATION_MESSAGE);

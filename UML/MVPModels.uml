@@ -8,30 +8,17 @@
     <node x="0.0" y="291.0">MVPModels.LogStatus</node>
   </nodes>
   <notes />
-  <edges>
-    <edge source="MVPModels.UserModel" target="MVPModels.UserModel">
-      <point x="45.5" y="-82.5" />
-      <point x="384.5" y="0.0" />
-      <point x="445.0" y="0.0" />
-      <point x="445.0" y="56.25" />
-      <point x="91.0" y="-41.25" />
-    </edge>
-    <edge source="MVPModels.DataBaseModel" target="MVPModels.DataBaseModel">
-      <point x="45.5" y="-115.5" />
-      <point x="136.5" y="0.0" />
-      <point x="197.0" y="0.0" />
-      <point x="197.0" y="72.75" />
-      <point x="91.0" y="-57.75" />
-    </edge>
-  </edges>
-  <settings layout="Balloon" zoom="1.0" x="204.5" y="198.5" />
-  <SelectedNodes />
+  <edges />
+  <settings layout="Balloon" zoom="0.86810551558753" x="215.0" y="213.5" />
+  <SelectedNodes>
+    <node>MVPModels.DataBaseModel</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
-    <Category>Inner Classes</Category>
-    <Category>Methods</Category>
     <Category>Constructors</Category>
+    <Category>Methods</Category>
     <Category>Properties</Category>
+    <Category>Inner Classes</Category>
   </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
