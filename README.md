@@ -1,2 +1,21 @@
 # Multimedia_Library
-This is a java program. Using it, you can ADD files to the database, EDIT them by renaming them in the list showed in the program interface, the database, and the actual file in your maching, as well as DELETE the selected file from the list, and finally, RUN the file.
+This program is for storing and organizing files withing a Database;
+
+### Program description:
+At first, the user has to `Sign In` to the system;
+![Student Space](Resources/GUI/Login.png)
+Or `Sign UP`
+![Student Space](Resources/GUI/SignU.png)
+
+Then, the user can add files to the Database, by pressing the `Add` button, and see them showing in the list to the Left
+![Student Space](Resources/GUI/MainMenu1element.png)
+- By pressing the `Edit` button, The user can also Rename the added files, both in the list,
+and the actual file in the machine.
+  <br>
+- And the `Delete` button lets the user delete the file, both the entry in the list, and the actual file in the machine.
+
+
+After the user finishs, he can press `Logout` to exit his session, and go back to the login menu
+![Student Space](Resources/GUI/MainMenuFull.png)
+
+
